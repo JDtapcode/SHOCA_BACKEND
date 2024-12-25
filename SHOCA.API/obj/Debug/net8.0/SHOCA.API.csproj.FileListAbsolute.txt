@@ -1,0 +1,6 @@
+C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\SHOCA.API.csproj.AssemblyReference.cache
+C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\SHOCA.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\SHOCA.API.AssemblyInfoInputs.cache
+C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\SHOCA.API.AssemblyInfo.cs
+C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\SHOCA.API.csproj.CoreCompileInputs.cache
+C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\SHOCA.API.MvcApplicationPartsAssemblyInfo.cache

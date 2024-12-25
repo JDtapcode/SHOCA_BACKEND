@@ -1,0 +1,5 @@
+C:\Users\Hp\source\repos\SHOCA.API\Services\obj\Debug\net8.0\Services.csproj.AssemblyReference.cache
+C:\Users\Hp\source\repos\SHOCA.API\Services\obj\Debug\net8.0\Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Hp\source\repos\SHOCA.API\Services\obj\Debug\net8.0\Services.AssemblyInfoInputs.cache
+C:\Users\Hp\source\repos\SHOCA.API\Services\obj\Debug\net8.0\Services.AssemblyInfo.cs
+C:\Users\Hp\source\repos\SHOCA.API\Services\obj\Debug\net8.0\Services.csproj.CoreCompileInputs.cache

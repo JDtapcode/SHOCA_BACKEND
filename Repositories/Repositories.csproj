@@ -21,12 +21,7 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Enums\" />
-	  <Folder Include="Interfaces\" />
 	  <Folder Include="Migrations\" />
-	  <Folder Include="Models\" />
-	  <Folder Include="Utils\" />
-	  <Folder Include="Repositories\" />
 	</ItemGroup>
 
 </Project>

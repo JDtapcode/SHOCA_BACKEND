@@ -13,21 +13,47 @@ namespace Repositories.Utils
 {
     public class TokenTools
     {
+        //public static JwtSecurityToken CreateJWTToken(List<Claim> authClaims, IConfiguration configuration)
+        //{
+        //    var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]!));
+        //    _ = int.TryParse(configuration["JWT:TokenValidityInMinutes"], out int tokenValidityInMinutes);
+
+        //    var token = new JwtSecurityToken(
+        //        issuer: configuration["JWT:ValidIssuer"],
+        //        audience: configuration["JWT:ValidAudience"],
+        //        expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),
+        //        claims: authClaims,
+        //        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+        //        );
+
+        //    return token;
+        //}
         public static JwtSecurityToken CreateJWTToken(List<Claim> authClaims, IConfiguration configuration)
         {
+            var roleClaim = authClaims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+            if (roleClaim == null)
+            {
+                throw new ArgumentException("Missing role claim in authClaims");
+            }
+
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]!));
             _ = int.TryParse(configuration["JWT:TokenValidityInMinutes"], out int tokenValidityInMinutes);
 
+            // Tạo token
             var token = new JwtSecurityToken(
                 issuer: configuration["JWT:ValidIssuer"],
                 audience: configuration["JWT:ValidAudience"],
                 expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
+            );
+
+            // Bổ sung thêm trường `role` vào payload
+            token.Payload["role"] = roleClaim.Value;
 
             return token;
         }
+
 
         public static string GenerateRefreshToken()
         {

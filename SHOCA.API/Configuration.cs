@@ -49,6 +49,10 @@ namespace SHOCA.API
             // Account
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+
+            //FreelancerService
+            services.AddScoped<IFreelancerServiceService, FreelancerServiceService>();
+            services.AddScoped<IFreelancerServiceRepository,FreelancerServiceRepository>();
             return services;
         }
         }

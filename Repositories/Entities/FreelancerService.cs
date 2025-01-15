@@ -10,7 +10,7 @@ namespace Repositories.Entities
     {
         public string? Description { get; set; }
         public decimal Price { get; set; }
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
         public int? DeliveryTime { get; set; }
         public int NumConcepts { get; set; }
         public int NumRevisions { get; set; }

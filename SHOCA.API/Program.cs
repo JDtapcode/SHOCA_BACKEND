@@ -10,6 +10,10 @@ using System;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+if (!Directory.Exists(FileStorageConfig.UploadDirectory))
+{
+    Directory.CreateDirectory(FileStorageConfig.UploadDirectory);
+}
 
 // Add services to the container.
 builder.Services.AddControllers();

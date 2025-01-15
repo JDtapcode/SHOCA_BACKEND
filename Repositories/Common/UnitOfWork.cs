@@ -11,13 +11,17 @@ namespace Repositories.Common
     {
         private readonly AppDbContext _dbContext;
         private readonly IAccountRepository _accountRepository;
-        public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository)
+        private readonly IFreelancerServiceRepository _freelancerServiceRepository;
+        public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IFreelancerServiceRepository freelancerServiceRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
+            _freelancerServiceRepository = freelancerServiceRepository;
         }
         public AppDbContext DbContext => _dbContext;
+
         public IAccountRepository AccountRepository => _accountRepository;
+        public IFreelancerServiceRepository FreelancerServiceRepository => _freelancerServiceRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

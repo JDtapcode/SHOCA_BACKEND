@@ -10,6 +10,7 @@ namespace Repositories.Interfaces
     {
         AppDbContext DbContext { get; }
         IAccountRepository AccountRepository { get; }
+        IFreelancerServiceRepository FreelancerServiceRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }

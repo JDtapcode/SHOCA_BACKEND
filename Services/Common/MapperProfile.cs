@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Repositories.Entities;
 using Repositories.Models.AccountModels;
+using Repositories.Models.CategoryModels;
 using Repositories.Models.FreelancerServiceModels;
 using Repositories.Models.JobModels;
 using Services.Models.AccountModels;
+using Services.Models.CategoryModels;
 using Services.Models.FreelancerServiceModels;
 using Services.Models.JobModels;
 using System;
@@ -48,6 +50,11 @@ namespace Services.Common
 
             CreateMap<Job, JobCreateModel>().ReverseMap();
             CreateMap<Job, JobUpdateModel>().ReverseMap();
+            // Category
+            CreateMap<Category, CategoryModel>().ReverseMap();
+            CreateMap<Category, CategoryCreateModel>().ReverseMap();
+            CreateMap<Category, CategoryUpdateModel>().ReverseMap();
+
 
         }
     }

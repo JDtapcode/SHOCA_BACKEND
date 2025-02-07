@@ -13,18 +13,23 @@ namespace Repositories.Common
         private readonly IAccountRepository _accountRepository;
         private readonly IFreelancerServiceRepository _freelancerServiceRepository;
         private readonly IJobRepository _jobRepository;
-        public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IFreelancerServiceRepository freelancerServiceRepository,IJobRepository jobRepository)
+        private readonly ICategoryRepository _categoryRepository;
+        public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IFreelancerServiceRepository freelancerServiceRepository,IJobRepository jobRepository, ICategoryRepository categoryRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
             _freelancerServiceRepository = freelancerServiceRepository;
             _jobRepository = jobRepository;
+            _categoryRepository = categoryRepository;
         }
         public AppDbContext DbContext => _dbContext;
 
         public IAccountRepository AccountRepository => _accountRepository;
         public IFreelancerServiceRepository FreelancerServiceRepository => _freelancerServiceRepository;
         public IJobRepository JobRepository => _jobRepository;
+
+        public ICategoryRepository CategoryRepository => _categoryRepository;
+
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

@@ -58,6 +58,11 @@ namespace SHOCA.API
             //Job
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IJobRepository, JobRepository>();
+
+            //Category
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
             return services;
         }
         }

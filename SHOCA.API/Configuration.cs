@@ -53,6 +53,11 @@ namespace SHOCA.API
             //FreelancerService
             services.AddScoped<IFreelancerServiceService, FreelancerServiceService>();
             services.AddScoped<IFreelancerServiceRepository,FreelancerServiceRepository>();
+            
+
+            //Job
+            services.AddScoped<IJobService, JobService>();
+            services.AddScoped<IJobRepository, JobRepository>();
             return services;
         }
         }

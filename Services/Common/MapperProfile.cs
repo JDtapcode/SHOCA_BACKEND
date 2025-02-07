@@ -2,8 +2,10 @@
 using Repositories.Entities;
 using Repositories.Models.AccountModels;
 using Repositories.Models.FreelancerServiceModels;
+using Repositories.Models.JobModels;
 using Services.Models.AccountModels;
 using Services.Models.FreelancerServiceModels;
+using Services.Models.JobModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,22 @@ namespace Services.Common
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
             CreateMap<FreelancerService, FreelancerServiceCreateModel>().ReverseMap();
             CreateMap<FreelancerService, FreelancerServiceUpdateModel>().ReverseMap();
+
+            // Job
+            CreateMap<Job, JobModel>()
+                .ForMember(dest => dest.ProjectTitle, opt => opt.MapFrom(src => src.ProjectTitle))
+                .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories))
+                .ForMember(dest => dest.Budget, opt => opt.MapFrom(src => src.Budget))
+                .ForMember(dest => dest.TimeFrame, opt => opt.MapFrom(src => src.TimeFrame))
+                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.FileAttachment, opt => opt.MapFrom(src => src.FileAttachment ?? string.Empty))
+                .ForMember(dest => dest.PersonalInformation, opt => opt.MapFrom(src => src.PersonalInformation ?? string.Empty))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
+
+            CreateMap<Job, JobCreateModel>().ReverseMap();
+            CreateMap<Job, JobUpdateModel>().ReverseMap();
+
         }
-        }
+    }
 }

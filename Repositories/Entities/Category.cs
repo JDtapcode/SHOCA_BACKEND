@@ -10,7 +10,6 @@ namespace Repositories.Entities
     {
         public string Name { get; set; }
         public string? Description { get; set; }
-
         public virtual ICollection<ArtworkCategory> ArtworkCategories { get; set; }= new List<ArtworkCategory>();
     }
 

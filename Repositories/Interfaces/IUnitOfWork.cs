@@ -13,6 +13,7 @@ namespace Repositories.Interfaces
         IFreelancerServiceRepository FreelancerServiceRepository { get; }
         IJobRepository JobRepository { get; }
         ICategoryRepository CategoryRepository { get; }
+        IArtworkRepository ArtworkRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }

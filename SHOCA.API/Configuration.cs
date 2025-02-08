@@ -63,6 +63,10 @@ namespace SHOCA.API
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+            //Artwork
+            services.AddScoped<IArtworkService, ArtworkService>();
+            services.AddScoped<IArtworkRepository, ArtworkRepository>();
+
             return services;
         }
         }

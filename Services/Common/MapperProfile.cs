@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Repositories.Entities;
 using Repositories.Models.AccountModels;
+using Repositories.Models.ArtworkModels;
 using Repositories.Models.CategoryModels;
 using Repositories.Models.FreelancerServiceModels;
 using Repositories.Models.JobModels;
 using Services.Models.AccountModels;
+using Services.Models.ArtworkModels;
 using Services.Models.CategoryModels;
 using Services.Models.FreelancerServiceModels;
 using Services.Models.JobModels;
@@ -54,6 +56,15 @@ namespace Services.Common
             CreateMap<Category, CategoryModel>().ReverseMap();
             CreateMap<Category, CategoryCreateModel>().ReverseMap();
             CreateMap<Category, CategoryUpdateModel>().ReverseMap();
+            // Mapping từ Artwork sang ArtworkModel
+            CreateMap<Artwork, ArtworkModel>()
+    .ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
+        src.ArtworkCategories.Select(ac => ac.Category).ToList()))
+    .ReverseMap();
+
+            CreateMap<Artwork, ArtworkCreateModel>().ReverseMap();
+            CreateMap<Artwork, ArtworkUpdateModel>().ReverseMap();
+
 
 
         }

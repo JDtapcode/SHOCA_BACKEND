@@ -14,6 +14,10 @@ namespace Repositories.Interfaces
         IJobRepository JobRepository { get; }
         ICategoryRepository CategoryRepository { get; }
         IArtworkRepository ArtworkRepository { get; }
+        IRatingRepository RatingRepository { get; }
+        IRatingCommentRepository CommentRepository { get; }
+        IProPackageRepository ProPackageRepository { get; }
+        IPortfolioRepository PortfolioRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }

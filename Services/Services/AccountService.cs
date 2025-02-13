@@ -83,7 +83,7 @@ namespace Services.Services
             return new ResponseModel
             {
                 Status = false,
-                Message = "Cannot create account"
+                Message = "Password must contain uppercase letters, numbers and special characters"
             };
         }
 

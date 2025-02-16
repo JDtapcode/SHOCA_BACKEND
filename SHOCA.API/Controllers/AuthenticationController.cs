@@ -4,6 +4,7 @@ using Services.Interfaces;
 using Services.Models.AccountModels;
 using Services.Models.CommonModels;
 using Services.Models.TokenModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace SHOCA.API.Controllers
 {
@@ -18,11 +19,46 @@ namespace SHOCA.API.Controllers
             _accountService = accountService;
         }
 
+        //[HttpPost("register")]
+        //public async Task<IActionResult> Register([FromBody] AccountRegisterModel accountRegisterModel)
+        //{
+        //    try
+        //    {
+        //        var result = await _accountService.Register(accountRegisterModel);
+        //        if (result.Status)
+        //        {
+        //            return Ok(result);
+        //        }
+
+        //        return BadRequest(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex);
+        //    }
+        //}
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] AccountRegisterModel accountRegisterModel)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    // Lấy danh sách lỗi validation
+                    var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
+                                           .ToDictionary(
+                                               kvp => kvp.Key,
+                                               kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                           );
+
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        Message = "Validation failed",
+                        Errors = errors
+                    });
+                }
+
                 var result = await _accountService.Register(accountRegisterModel);
                 if (result.Status)
                 {
@@ -33,9 +69,10 @@ namespace SHOCA.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { Status = false, Message = ex.Message });
             }
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AccountLoginModel accountLoginModel)
@@ -75,6 +112,24 @@ namespace SHOCA.API.Controllers
             }
         }
 
+        //[HttpGet("email/verify")]
+        //public async Task<IActionResult> VerifyEmail([FromQuery] string email, [FromQuery] string verificationCode)
+        //{
+        //    try
+        //    {
+        //        var result = await _accountService.VerifyEmail(email, verificationCode);
+        //        if (result.Status)
+        //        {
+        //            return Ok(result);
+        //        }
+
+        //        return BadRequest(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex);
+        //    }
+        //}
         [HttpGet("email/verify")]
         public async Task<IActionResult> VerifyEmail([FromQuery] string email, [FromQuery] string verificationCode)
         {
@@ -90,7 +145,12 @@ namespace SHOCA.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new
+                {
+                    Status = false,
+                    Message = "An error occurred",
+                    Details = ex.Message
+                });
             }
         }
 

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -18,6 +19,11 @@ if (!Directory.Exists(FileStorageConfig.UploadDirectory))
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
+
 builder.Services.AddSwaggerGen(x =>
 {
     x.SwaggerDoc("v1", new OpenApiInfo { Title = "SHOCA", Version = "v1" });

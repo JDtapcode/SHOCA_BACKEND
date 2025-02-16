@@ -86,7 +86,6 @@ namespace Services.Services
                 Message = "Password must contain uppercase letters, numbers and special characters"
             };
         }
-
         private async Task SendVerificationEmail(Account account)
         {
             await _emailService.SendEmailAsync(account.Email!, "Verify your email",

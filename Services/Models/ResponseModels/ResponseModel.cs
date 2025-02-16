@@ -14,5 +14,6 @@ namespace Services.Models.ResponseModels
         // Optional
         public bool? EmailVerificationRequired { get; set; }
         public bool? IsBlocked { get; set; }
+        public List<string>? Errors { get; internal set; }
     }
 }

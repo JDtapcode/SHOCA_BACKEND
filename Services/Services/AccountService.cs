@@ -627,16 +627,76 @@ namespace Services.Services
                 accountFilterModel.PageSize);
         }
 
-        public async Task<ResponseModel> UpdateAccount(Guid id, AccountUpdateModel accountUpdateModel)
+        //public async Task<ResponseModel> UpdateAccount(Guid id, AccountUpdateModel accountUpdateModel)
+        //{
+        //    var user = await _userManager.FindByIdAsync(id.ToString());
+
+        //    if (user == null)
+        //    {
+        //        return new ResponseModel
+        //        {
+        //            Status = false,
+        //            Message = "User not found"
+        //        };
+        //    }
+
+        //    user.FirstName = accountUpdateModel.FirstName;
+        //    user.LastName = accountUpdateModel.LastName;
+        //    user.Gender = accountUpdateModel.Gender;
+        //    user.DateOfBirth = accountUpdateModel.DateOfBirth;
+        //    user.Address = accountUpdateModel.Address;
+        //    user.AvatarUrl = accountUpdateModel.AvatarUrl;
+        //    user.PersonalWebsiteUrl = accountUpdateModel.PersonalWebsiteUrl;
+        //    user.PortfolioUrl = accountUpdateModel.PortfolioUrl;
+        //    user.PhoneNumber = accountUpdateModel.PhoneNumber;
+        //    user.ModificationDate = DateTime.Now;
+        //    user.ModifiedBy = _claimsService.GetCurrentUserId;
+
+        //    // Update the user in _userManager
+        //    var updateResult = await _userManager.UpdateAsync(user);
+
+        //    if (!updateResult.Succeeded)
+        //    {
+        //        return new ResponseModel
+        //        {
+        //            Status = false,
+        //            Message = "Cannot update account"
+        //        };
+        //    }
+
+        //    // Manage user roles
+        //    var currentRoles = await _userManager.GetRolesAsync(user);
+        //    await _userManager.RemoveFromRolesAsync(user, currentRoles);
+
+        //    // Assign the new role
+        //    var addRoleResult = await _userManager.AddToRoleAsync(user, accountUpdateModel.Role.ToString());
+
+        //    if (addRoleResult.Succeeded)
+        //    {
+        //        return new ResponseModel
+        //        {
+        //            Status = true,
+        //            Message = "Update account and role successfully",
+        //        };
+        //    }
+
+        //    return new ResponseModel
+        //    {
+        //        Status = false,
+        //        Message = "Cannot update account role",
+        //    };
+        //}
+        public async Task<ResponseDataModel<AccountUpdateModel>> UpdateAccount(Guid id, AccountUpdateModel accountUpdateModel)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
 
             if (user == null)
             {
-                return new ResponseModel
+                return new ResponseDataModel<AccountUpdateModel>
                 {
                     Status = false,
-                    Message = "User not found"
+                    Message = "User not found",
+                    Data = null
                 };
             }
 
@@ -652,40 +712,42 @@ namespace Services.Services
             user.ModificationDate = DateTime.Now;
             user.ModifiedBy = _claimsService.GetCurrentUserId;
 
-            // Update the user in _userManager
             var updateResult = await _userManager.UpdateAsync(user);
 
             if (!updateResult.Succeeded)
             {
-                return new ResponseModel
+                return new ResponseDataModel<AccountUpdateModel>
                 {
                     Status = false,
-                    Message = "Cannot update account"
+                    Message = "Cannot update account",
+                    Data = accountUpdateModel
                 };
             }
 
-            // Manage user roles
+            // Quản lý vai trò người dùng
             var currentRoles = await _userManager.GetRolesAsync(user);
             await _userManager.RemoveFromRolesAsync(user, currentRoles);
-
-            // Assign the new role
             var addRoleResult = await _userManager.AddToRoleAsync(user, accountUpdateModel.Role.ToString());
 
-            if (addRoleResult.Succeeded)
+            if (!addRoleResult.Succeeded)
             {
-                return new ResponseModel
+                return new ResponseDataModel<AccountUpdateModel>
                 {
-                    Status = true,
-                    Message = "Update account and role successfully",
+                    Status = false,
+                    Message = "Cannot update account role",
+                    Data = accountUpdateModel
                 };
             }
 
-            return new ResponseModel
+            return new ResponseDataModel<AccountUpdateModel>
             {
-                Status = false,
-                Message = "Cannot update account role",
+                Status = true,
+                Message = "Update account and role successfully",
+                Data = accountUpdateModel
             };
         }
+
+
 
         public async Task<ResponseModel> DeleteAccount(Guid id)
         {

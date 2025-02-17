@@ -1,4 +1,5 @@
-﻿using Repositories.Models.AccountModels;
+﻿using Repositories.Entities;
+using Repositories.Models.AccountModels;
 using Services.Common;
 using Services.Models.AccountModels;
 using Services.Models.CommonModels;
@@ -25,7 +26,8 @@ namespace Services.Interfaces
         Task<ResponseModel> AddAccounts(AccountRegisterModel accountRegisterModels);
         Task<ResponseDataModel<AccountModel>> GetAccount(Guid id);
         Task<Pagination<AccountModel>> GetAllAccounts(AccountFilterModel accountFilterModel);
-        Task<ResponseModel> UpdateAccount(Guid id, AccountUpdateModel accountUpdateModel);
+        //Task<ResponseModel> UpdateAccount(Guid id, AccountUpdateModel accountUpdateModel);
+        Task<ResponseDataModel<AccountUpdateModel>> UpdateAccount(Guid id, AccountUpdateModel accountUpdateModel);
         Task<ResponseModel> DeleteAccount(Guid id);
         Task<ResponseModel> RestoreAccount(Guid id);
     }

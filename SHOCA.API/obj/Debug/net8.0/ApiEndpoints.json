@@ -8,9 +8,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "accountRegisterModels",
+        "Name": "accountRegisterModel",
         "Type": "Services.Models.AccountModels.AccountRegisterModel",
-        "IsRequired": true
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -398,7 +398,7 @@
       {
         "Name": "accountRegisterModel",
         "Type": "Services.Models.AccountModels.AccountRegisterModel",
-        "IsRequired": true
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

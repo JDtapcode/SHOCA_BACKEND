@@ -18,12 +18,28 @@ namespace SHOCA.API.Controllers
         {
             _accountService = accountService;
         }
-
         //[HttpPost("register")]
         //public async Task<IActionResult> Register([FromBody] AccountRegisterModel accountRegisterModel)
         //{
         //    try
         //    {
+        //        if (!ModelState.IsValid)
+        //        {
+        //            // Lấy danh sách lỗi validation
+        //            var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
+        //                                   .ToDictionary(
+        //                                       kvp => kvp.Key,
+        //                                       kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+        //                                   );
+
+        //            return BadRequest(new
+        //            {
+        //                Status = false,
+        //                Message = "Validation failed",
+        //                Errors = errors
+        //            });
+        //        }
+
         //        var result = await _accountService.Register(accountRegisterModel);
         //        if (result.Status)
         //        {
@@ -34,27 +50,58 @@ namespace SHOCA.API.Controllers
         //    }
         //    catch (Exception ex)
         //    {
-        //        return BadRequest(ex);
+        //        return BadRequest(new { Status = false, Message = ex.Message });
         //    }
         //}
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] AccountRegisterModel accountRegisterModel)
+        public async Task<IActionResult> Register([FromBody] AccountRegisterModel? accountRegisterModel)
         {
             try
             {
-                if (!ModelState.IsValid)
+                if (accountRegisterModel == null)
                 {
-                    // Lấy danh sách lỗi validation
-                    var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
-                                           .ToDictionary(
-                                               kvp => kvp.Key,
-                                               kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
-                                           );
-
                     return BadRequest(new
                     {
                         Status = false,
-                        Message = "Validation failed",
+                        Message = "Dữ liệu gửi lên không hợp lệ. Vui lòng kiểm tra lại."
+                    });
+                }
+
+                var errors = new List<string>();
+
+                if (string.IsNullOrWhiteSpace(accountRegisterModel.FirstName))
+                    errors.Add("Họ không được để trống.");
+
+                if (string.IsNullOrWhiteSpace(accountRegisterModel.LastName))
+                    errors.Add("Tên không được để trống.");
+
+                if (string.IsNullOrWhiteSpace(accountRegisterModel.PhoneNumber))
+                    errors.Add("Số điện thoại không được để trống.");
+
+                if (string.IsNullOrWhiteSpace(accountRegisterModel.Email))
+                    errors.Add("Email không được để trống.");
+
+                if (string.IsNullOrWhiteSpace(accountRegisterModel.Password))
+                    errors.Add("Mật khẩu không được để trống.");
+
+                if (string.IsNullOrWhiteSpace(accountRegisterModel.ConfirmPassword))
+                    errors.Add("Xác nhận mật khẩu không được để trống.");
+
+                if (accountRegisterModel.Password != accountRegisterModel.ConfirmPassword)
+                    errors.Add("Mật khẩu xác nhận không khớp.");
+
+                if (string.IsNullOrWhiteSpace(accountRegisterModel.Address))
+                    errors.Add("Địa chỉ không được để trống.");
+
+                if (accountRegisterModel.DateOfBirth == default || accountRegisterModel.DateOfBirth.Year < 1900||accountRegisterModel.DateOfBirth== null)
+                    errors.Add("Ngày sinh không hợp lệ. Vui lòng nhập đúng định dạng (yyyy-MM-dd).");
+
+                if (errors.Any())
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        Message = "Vui lòng kiểm tra lại thông tin.",
                         Errors = errors
                     });
                 }
@@ -69,9 +116,12 @@ namespace SHOCA.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Status = false, Message = ex.Message });
+                return BadRequest(new { Status = false, Message = "Đã xảy ra lỗi, vui lòng thử lại sau." });
             }
         }
+
+
+
 
 
         [HttpPost("login")]

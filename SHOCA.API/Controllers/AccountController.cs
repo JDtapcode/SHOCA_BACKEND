@@ -15,12 +15,39 @@ namespace SHOCA.API.Controllers
         {
             _accountService = accountService;
         }
+        //[HttpPost]
+        //public async Task<IActionResult> AddAccounts([FromBody] AccountRegisterModel accountRegisterModels)
+        //{
+        //    try
+        //    {
+        //        var result = await _accountService.AddAccounts(accountRegisterModels);
+        //        if (result.Status)
+        //        {
+        //            return Ok(result);
+        //        }
+
+        //        return BadRequest(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex);
+        //    }
+        //}
         [HttpPost]
-        public async Task<IActionResult> AddAccounts([FromBody] AccountRegisterModel accountRegisterModels)
+        public async Task<IActionResult> AddAccounts([FromBody] AccountRegisterModel? accountRegisterModel)
         {
             try
             {
-                var result = await _accountService.AddAccounts(accountRegisterModels);
+                if (accountRegisterModel == null)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        Message = "Dữ liệu gửi lên không hợp lệ. Vui lòng kiểm tra lại."
+                    });
+                }
+
+                var result = await _accountService.AddAccounts(accountRegisterModel);
                 if (result.Status)
                 {
                     return Ok(result);
@@ -30,9 +57,10 @@ namespace SHOCA.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { Status = false, Message = "Đã xảy ra lỗi, vui lòng thử lại sau." });
             }
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccount(Guid id)
         {

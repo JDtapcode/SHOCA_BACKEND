@@ -17,6 +17,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Services.Services
@@ -430,44 +431,134 @@ namespace Services.Services
                 Message = "Cannot reset password",
             };
         }
-        public async Task<ResponseModel> AddAccounts(AccountRegisterModel accountRegisterModels)
+        //public async Task<ResponseModel> AddAccounts(AccountRegisterModel accountRegisterModels)
+        //{
+        //    int count = 0;
+
+        //    // Check if email already exists
+        //    var existedEmail = await _userManager.FindByEmailAsync(accountRegisterModels.Email);
+
+        //    if (existedEmail == null)
+        //    {
+        //        // Create new account
+        //        var user = _mapper.Map<Account>(accountRegisterModels);
+        //        user.UserName = user.Email;
+        //        user.CreationDate = DateTime.Now;
+        //        // user.VerificationCode = AuthenticationTools.GenerateVerificationCode(6);
+        //        // user.VerificationCodeExpiryTime = DateTime.Now.AddMinutes(15);
+
+        //        var result = await _userManager.CreateAsync(user, accountRegisterModels.Password);
+
+        //        if (result.Succeeded)
+        //        {
+        //            // Add role
+        //            var role = accountRegisterModels.Role?.ToString() ?? Repositories.Enums.Role.Customer.ToString();
+        //            await _userManager.AddToRoleAsync(user, role);
+
+        //            // Email verification (disable this function if users are not required to verify their email)
+        //            // await SendVerificationEmail(user);
+
+        //            count++;
+        //        }
+        //    }
+
+
+        //    return new ResponseModel
+        //    {
+        //        Status = true,
+        //        Message = $"Add {count} accounts successfully"
+        //    };
+        //}
+        public async Task<ResponseModel> AddAccounts(AccountRegisterModel accountRegisterModel)
         {
-            int count = 0;
+            // Kiểm tra dữ liệu đầu vào
+            var errors = new List<string>();
 
-            // Check if email already exists
-            var existedEmail = await _userManager.FindByEmailAsync(accountRegisterModels.Email);
+            if (string.IsNullOrWhiteSpace(accountRegisterModel.FirstName))
+                errors.Add("Họ không được để trống.");
 
-            if (existedEmail == null)
+            if (string.IsNullOrWhiteSpace(accountRegisterModel.LastName))
+                errors.Add("Tên không được để trống.");
+
+            if (string.IsNullOrWhiteSpace(accountRegisterModel.PhoneNumber))
+                errors.Add("Số điện thoại không được để trống.");
+
+            if (string.IsNullOrWhiteSpace(accountRegisterModel.Email))
+                errors.Add("Email không được để trống.");
+            else
             {
-                // Create new account
-                var user = _mapper.Map<Account>(accountRegisterModels);
-                user.UserName = user.Email;
-                user.CreationDate = DateTime.Now;
-                // user.VerificationCode = AuthenticationTools.GenerateVerificationCode(6);
-                // user.VerificationCodeExpiryTime = DateTime.Now.AddMinutes(15);
-
-                var result = await _userManager.CreateAsync(user, accountRegisterModels.Password);
-
-                if (result.Succeeded)
+                // Kiểm tra định dạng email
+                string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                if (!Regex.IsMatch(accountRegisterModel.Email, emailPattern))
                 {
-                    // Add role
-                    var role = accountRegisterModels.Role?.ToString() ?? Repositories.Enums.Role.Customer.ToString();
-                    await _userManager.AddToRoleAsync(user, role);
-
-                    // Email verification (disable this function if users are not required to verify their email)
-                    // await SendVerificationEmail(user);
-
-                    count++;
+                    errors.Add("Email không hợp lệ.");
                 }
             }
 
+            if (string.IsNullOrWhiteSpace(accountRegisterModel.Password))
+                errors.Add("Mật khẩu không được để trống.");
+
+            if (string.IsNullOrWhiteSpace(accountRegisterModel.ConfirmPassword))
+                errors.Add("Xác nhận mật khẩu không được để trống.");
+
+            if (accountRegisterModel.Password != accountRegisterModel.ConfirmPassword)
+                errors.Add("Mật khẩu xác nhận không khớp.");
+
+            if (string.IsNullOrWhiteSpace(accountRegisterModel.Address))
+                errors.Add("Địa chỉ không được để trống.");
+
+            if (accountRegisterModel.DateOfBirth == default || accountRegisterModel.DateOfBirth.Year < 1900)
+                errors.Add("Ngày sinh không hợp lệ. Vui lòng nhập đúng định dạng (yyyy-MM-dd).");
+
+            if (errors.Any())
+            {
+                return new ResponseModel
+                {
+                    Status = false,
+                    Message = "Vui lòng kiểm tra lại thông tin.",
+                    Errors = errors
+                };
+            }
+
+            // Kiểm tra email đã tồn tại chưa
+            var existedEmail = await _userManager.FindByEmailAsync(accountRegisterModel.Email);
+
+            if (existedEmail != null)
+            {
+                return new ResponseModel
+                {
+                    Status = false,
+                    Message = "Email đã tồn tại trong hệ thống."
+                };
+            }
+
+            // Tạo tài khoản mới
+            var user = _mapper.Map<Account>(accountRegisterModel);
+            user.UserName = user.Email;
+            user.CreationDate = DateTime.Now;
+
+            var result = await _userManager.CreateAsync(user, accountRegisterModel.Password);
+
+            if (result.Succeeded)
+            {
+                // Thêm quyền (role)
+                var role = accountRegisterModel.Role?.ToString() ?? Repositories.Enums.Role.Customer.ToString();
+                await _userManager.AddToRoleAsync(user, role);
+
+                return new ResponseModel
+                {
+                    Status = true,
+                    Message = "Tài khoản đã được tạo thành công."
+                };
+            }
 
             return new ResponseModel
             {
-                Status = true,
-                Message = $"Add {count} accounts successfully"
+                Status = false,
+                Message = "Mật khẩu phải chứa chữ hoa, số và ký tự đặc biệt."
             };
         }
+
 
         public async Task<ResponseDataModel<AccountModel>> GetAccount(Guid id)
         {

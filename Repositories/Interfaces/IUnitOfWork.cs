@@ -21,6 +21,7 @@ namespace Repositories.Interfaces
         ITransactionRepository TransactionRepository { get; }
         IAccountProPackageRepository AccountProPackageRepository { get; }
         IArtworkImageRepository ArtworkImageRepository { get; }
+        IPortfolioImageRepository PortfolioImageRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }

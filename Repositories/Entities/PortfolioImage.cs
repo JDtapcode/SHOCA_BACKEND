@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Repositories.Entities
 {
-    public class PortfolioImage
+    public class PortfolioImage:BaseEntity
     {
         public Guid PortfolioId { get; set; }
         public Portfolio Portfolio { get; set; }

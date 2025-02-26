@@ -22,7 +22,8 @@ namespace Repositories.Common
         private readonly IAccountProPackageRepository _accountProPackageRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IArtworkImageRepository _artworkImageRepository;
-        public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IFreelancerServiceRepository freelancerServiceRepository,IJobRepository jobRepository, ICategoryRepository categoryRepository,IArtworkRepository artworkRepository,IRatingRepository ratingRepository,IRatingCommentRepository ratingCommentRepository,IProPackageRepository proPackageRepository,IPortfolioRepository portfolioRepository,IAccountProPackageRepository accountProPackageRepository,ITransactionRepository transactionRepository,IArtworkImageRepository artworkImageRepository)
+        private readonly IPortfolioImageRepository _portfolioImageRepository;
+        public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IFreelancerServiceRepository freelancerServiceRepository,IJobRepository jobRepository, ICategoryRepository categoryRepository,IArtworkRepository artworkRepository,IRatingRepository ratingRepository,IRatingCommentRepository ratingCommentRepository,IProPackageRepository proPackageRepository,IPortfolioRepository portfolioRepository,IAccountProPackageRepository accountProPackageRepository,ITransactionRepository transactionRepository,IArtworkImageRepository artworkImageRepository,IPortfolioImageRepository portfolioImageRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -37,6 +38,7 @@ namespace Repositories.Common
             _transactionRepository = transactionRepository;
             _accountProPackageRepository = accountProPackageRepository;
             _artworkImageRepository = artworkImageRepository;
+            _portfolioRepository = portfolioRepository;
         }
         public AppDbContext DbContext => _dbContext;
 
@@ -61,6 +63,8 @@ namespace Repositories.Common
         public IAccountProPackageRepository AccountProPackageRepository => _accountProPackageRepository;
 
         public IArtworkImageRepository ArtworkImageRepository => _artworkImageRepository;
+
+        public IPortfolioImageRepository PortfolioImageRepository => _portfolioImageRepository;
 
         public async Task<int> SaveChangeAsync()
         {

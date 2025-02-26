@@ -8,6 +8,7 @@ namespace Services.Models.FreelancerServiceModels
 {
     public class FreelancerServiceCreateModel
     {
+        public string Servicename { get; set; }
         public string? Description { get; set; }
         public decimal Price { get; set; }
         public string? ImageUrl { get; set; }

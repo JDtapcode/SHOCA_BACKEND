@@ -12,7 +12,14 @@ namespace Repositories.Interfaces
     public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     {
         Task<TEntity?> GetAsync(Guid id, string include = "");
-        Task<List<TEntity>> GetAllAsync(string include = "");
+        Task<TEntity?> GetAsync(Guid id, params string[] includes);
+        Task<List<TEntity>> GetAllAsyncs(string include = "");
+        Task<QueryResultModel<List<TEntity>>> GetAllAsync(
+    Expression<Func<TEntity, bool>>? filter = null,
+    int pageIndex = 1,
+    int pageSize = 10,
+    params Expression<Func<TEntity, object>>[] includes);
+
 
         Task<QueryResultModel<List<TEntity>>> GetAllAsync(
             Expression<Func<TEntity, bool>>? filter = null,

@@ -79,6 +79,15 @@ namespace SHOCA.API
             //Portfolio
             services.AddScoped<IPortfolioRepository, PortfolioRepository>();
             services.AddScoped<IPortfolioService, PortfolioService>();
+
+            //Transaction
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+
+            //AccountProPackage
+            services.AddScoped<IAccountProPackageRepository,AcccountProPackageRepository>();
+
+            //Image
+            services.AddScoped<IArtworkImageRepository, ArtworkImageRepository>();
             return services;
         }
         }

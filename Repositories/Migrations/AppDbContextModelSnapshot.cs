@@ -321,7 +321,7 @@ namespace Repositories.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("CreatorId")
+                    b.Property<Guid?>("CreatorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("DeletedBy")
@@ -331,10 +331,6 @@ namespace Repositories.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -349,11 +345,13 @@ namespace Repositories.Migrations
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PortfolioId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("ThumbnailUrl")
                         .HasColumnType("nvarchar(max)");
@@ -365,8 +363,6 @@ namespace Repositories.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
-
-                    b.HasIndex("PortfolioId");
 
                     b.ToTable("Artworks");
                 });
@@ -408,6 +404,50 @@ namespace Repositories.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("ArtworkCategories");
+                });
+
+            modelBuilder.Entity("Repositories.Entities.ArtworkImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ArtworkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ThumbnailUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArtworkId");
+
+                    b.ToTable("ArtworkImages");
                 });
 
             modelBuilder.Entity("Repositories.Entities.Category", b =>
@@ -496,6 +536,10 @@ namespace Repositories.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Servicename")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -627,6 +671,25 @@ namespace Repositories.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Portfolios");
+                });
+
+            modelBuilder.Entity("Repositories.Entities.PortfolioImage", b =>
+                {
+                    b.Property<Guid>("PortfolioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ArtworkImageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PortfolioId", "ArtworkImageId");
+
+                    b.HasIndex("ArtworkImageId");
+
+                    b.ToTable("PortfolioImages");
                 });
 
             modelBuilder.Entity("Repositories.Entities.ProPackage", b =>
@@ -937,18 +1000,9 @@ namespace Repositories.Migrations
                     b.HasOne("Repositories.Entities.Account", "Creator")
                         .WithMany("Artworks")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Repositories.Entities.Portfolio", "Portfolio")
-                        .WithMany("Artworks")
-                        .HasForeignKey("PortfolioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Creator");
-
-                    b.Navigation("Portfolio");
                 });
 
             modelBuilder.Entity("Repositories.Entities.ArtworkCategory", b =>
@@ -968,6 +1022,17 @@ namespace Repositories.Migrations
                     b.Navigation("Artwork");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Repositories.Entities.ArtworkImage", b =>
+                {
+                    b.HasOne("Repositories.Entities.Artwork", "Artwork")
+                        .WithMany("Images")
+                        .HasForeignKey("ArtworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Artwork");
                 });
 
             modelBuilder.Entity("Repositories.Entities.FreelancerService", b =>
@@ -1007,6 +1072,25 @@ namespace Repositories.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Repositories.Entities.PortfolioImage", b =>
+                {
+                    b.HasOne("Repositories.Entities.ArtworkImage", "ArtworkImage")
+                        .WithMany("PortfolioImages")
+                        .HasForeignKey("ArtworkImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repositories.Entities.Portfolio", "Portfolio")
+                        .WithMany("PortfolioImages")
+                        .HasForeignKey("PortfolioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ArtworkImage");
+
+                    b.Navigation("Portfolio");
                 });
 
             modelBuilder.Entity("Repositories.Entities.Rating", b =>
@@ -1097,9 +1181,16 @@ namespace Repositories.Migrations
                 {
                     b.Navigation("ArtworkCategories");
 
+                    b.Navigation("Images");
+
                     b.Navigation("Ratings");
 
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("Repositories.Entities.ArtworkImage", b =>
+                {
+                    b.Navigation("PortfolioImages");
                 });
 
             modelBuilder.Entity("Repositories.Entities.Category", b =>
@@ -1109,7 +1200,7 @@ namespace Repositories.Migrations
 
             modelBuilder.Entity("Repositories.Entities.Portfolio", b =>
                 {
-                    b.Navigation("Artworks");
+                    b.Navigation("PortfolioImages");
                 });
 
             modelBuilder.Entity("Repositories.Entities.ProPackage", b =>

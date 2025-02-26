@@ -1,4 +1,5 @@
-﻿using Services.Common;
+﻿using Repositories.Enums;
+using Services.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Services.Models.ArtworkModels
         public decimal? MinPrice { get; set; }
         public decimal? MaxPrice { get; set; }
         public Guid? CreatorId { get; set; }
-        public Guid? PortfolioId { get; set; }
+        public ArtworkStatus? Status { get; set; }
         public DateTime? CreatedFrom { get; set; }
         public DateTime? CreatedTo { get; set; }
         public bool isDeleted { get; set; } = false;

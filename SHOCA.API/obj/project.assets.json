@@ -2045,6 +2045,7 @@
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
           "Microsoft.AspNetCore.Http.Features": "5.0.17",
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.1",
+          "Newtonsoft.Json": "13.0.3",
           "Repositories": "1.0.0"
         },
         "compile": {

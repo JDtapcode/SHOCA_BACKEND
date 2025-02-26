@@ -18,6 +18,9 @@ namespace Repositories.Interfaces
         IRatingCommentRepository CommentRepository { get; }
         IProPackageRepository ProPackageRepository { get; }
         IPortfolioRepository PortfolioRepository { get; }
+        ITransactionRepository TransactionRepository { get; }
+        IAccountProPackageRepository AccountProPackageRepository { get; }
+        IArtworkImageRepository ArtworkImageRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }

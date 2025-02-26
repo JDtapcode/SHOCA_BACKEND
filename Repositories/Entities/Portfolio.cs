@@ -16,7 +16,7 @@ namespace Repositories.Entities
         public string? Skills { get; set; }
         public string? Experience { get; set; }
         public string? ContactUrl { get; set; }
-        public virtual ICollection<Artwork> Artworks { get; set; } = new List<Artwork>();
+        public virtual ICollection<PortfolioImage> PortfolioImages { get; set; } = new List<PortfolioImage>();
     }
 
 }

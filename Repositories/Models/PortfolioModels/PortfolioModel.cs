@@ -16,5 +16,6 @@ namespace Repositories.Models.PortfolioModels
         public string? Skills { get; set; }
         public string? Experience { get; set; }
         public string? ContactUrl { get; set; }
+        public List<string>? ImageUrls { get; set; }
     }
 }

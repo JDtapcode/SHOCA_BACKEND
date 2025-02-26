@@ -24,6 +24,8 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Migrations\" />
+	  <Folder Include="Models\AccountProPackageModels\" />
+	  <Folder Include="Models\TransactionModels\" />
 	</ItemGroup>
 
 </Project>

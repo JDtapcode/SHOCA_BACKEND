@@ -1,5 +1,37 @@
 [
   {
+    "ContainingType": "SHOCA.API.Controllers.PackagePaymentController",
+    "Method": "CreatePaymentUrl",
+    "RelativePath": "api/payments/create-payment-url",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Services.Models.PayOSModels.PaymentRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SHOCA.API.Controllers.PackagePaymentController",
+    "Method": "HandlePaymentReturn",
+    "RelativePath": "api/payments/handle-payment-return",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transactionId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SHOCA.API.Controllers.AccountController",
     "Method": "AddAccounts",
     "RelativePath": "api/v1/accounts",
@@ -169,8 +201,8 @@
         "IsRequired": false
       },
       {
-        "Name": "PortfolioId",
-        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Name": "Status",
+        "Type": "System.String",
         "IsRequired": false
       },
       {

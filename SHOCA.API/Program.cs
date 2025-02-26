@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repositories;
 using Repositories.Common;
+using Services.Interfaces;
+using Services.Services;
 using SHOCA.API;
 using SHOCA.API.Middlewares;
 using System;
@@ -23,6 +25,8 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
+builder.Services.AddScoped<IPayOSService, PayOSService>();
+
 
 builder.Services.AddSwaggerGen(x =>
 {

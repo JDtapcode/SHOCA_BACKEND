@@ -19,7 +19,10 @@ namespace Repositories.Common
         private readonly IRatingCommentRepository _ratingCommentRepository;
         private readonly IProPackageRepository _proPackageRepository;
         private readonly IPortfolioRepository _portfolioRepository;
-        public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IFreelancerServiceRepository freelancerServiceRepository,IJobRepository jobRepository, ICategoryRepository categoryRepository,IArtworkRepository artworkRepository,IRatingRepository ratingRepository,IRatingCommentRepository ratingCommentRepository,IProPackageRepository proPackageRepository,IPortfolioRepository portfolioRepository)
+        private readonly IAccountProPackageRepository _accountProPackageRepository;
+        private readonly ITransactionRepository _transactionRepository;
+        private readonly IArtworkImageRepository _artworkImageRepository;
+        public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IFreelancerServiceRepository freelancerServiceRepository,IJobRepository jobRepository, ICategoryRepository categoryRepository,IArtworkRepository artworkRepository,IRatingRepository ratingRepository,IRatingCommentRepository ratingCommentRepository,IProPackageRepository proPackageRepository,IPortfolioRepository portfolioRepository,IAccountProPackageRepository accountProPackageRepository,ITransactionRepository transactionRepository,IArtworkImageRepository artworkImageRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -31,6 +34,9 @@ namespace Repositories.Common
             _ratingCommentRepository = ratingCommentRepository;
             _proPackageRepository = proPackageRepository;
             _portfolioRepository = portfolioRepository;
+            _transactionRepository = transactionRepository;
+            _accountProPackageRepository = accountProPackageRepository;
+            _artworkImageRepository = artworkImageRepository;
         }
         public AppDbContext DbContext => _dbContext;
 
@@ -49,6 +55,12 @@ namespace Repositories.Common
         public IProPackageRepository ProPackageRepository => _proPackageRepository;
 
         public IPortfolioRepository PortfolioRepository => _portfolioRepository;
+
+        public ITransactionRepository TransactionRepository => _transactionRepository;
+
+        public IAccountProPackageRepository AccountProPackageRepository => _accountProPackageRepository;
+
+        public IArtworkImageRepository ArtworkImageRepository => _artworkImageRepository;
 
         public async Task<int> SaveChangeAsync()
         {

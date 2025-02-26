@@ -34,6 +34,7 @@ namespace Services.Common
 
             //Freelancer
             CreateMap<FreelancerService, FreelancerServiceModel>()
+                .ForMember(dest => dest.Servicename, opt => opt.MapFrom(src => src.Servicename))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl ?? string.Empty))
@@ -62,11 +63,26 @@ namespace Services.Common
             CreateMap<Category, CategoryModel>().ReverseMap();
             CreateMap<Category, CategoryCreateModel>().ReverseMap();
             CreateMap<Category, CategoryUpdateModel>().ReverseMap();
-            // Mapping từ Artwork sang ArtworkModel
+            //Artwork
+            //CreateMap<Artwork, ArtworkModel>()
+            //.ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
+            //    src.ArtworkCategories.Select(ac => ac.Category.Name).ToList())) // ✅ Chỉ lấy Name của Category
+            //.ForMember(dest => dest.Images, opt => opt.MapFrom(src =>
+            //    src.Images.Select(img => img.FileUrl).ToList())) // ✅ Chỉ lấy Image URL
+            //.ReverseMap();
             CreateMap<Artwork, ArtworkModel>()
     .ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
-        src.ArtworkCategories.Select(ac => ac.Category).ToList()))
+        src.ArtworkCategories != null
+        ? src.ArtworkCategories.Select(ac => ac.Category != null ? ac.Category.Name : "Unknown").ToList() 
+        : new List<string>()
+    ))
+    .ForMember(dest => dest.Images, opt => opt.MapFrom(src =>
+        src.Images != null
+        ? src.Images.Select(img => img.FileUrl).ToList()
+        : new List<string>() // ✅ Tránh null
+    ))
     .ReverseMap();
+
             CreateMap<Artwork, ArtworkCreateModel>().ReverseMap();
             CreateMap<Artwork, ArtworkUpdateModel>().ReverseMap();
 
@@ -87,17 +103,35 @@ namespace Services.Common
             CreateMap<ProPackageUpdateModel, ProPackage>();
 
             //Portfolio
-            CreateMap<Portfolio, PortfolioModel>()
-            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
-            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-            .ForMember(dest => dest.CoverImageUrl, opt => opt.MapFrom(src => src.CoverImageUrl))
-            .ForMember(dest => dest.Skills, opt => opt.MapFrom(src => src.Skills))
-            .ForMember(dest => dest.Experience, opt => opt.MapFrom(src => src.Experience))
-            .ForMember(dest => dest.ContactUrl, opt => opt.MapFrom(src => src.ContactUrl))
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
+            //CreateMap<Portfolio, PortfolioModel>()
+            //.ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+            //.ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+            //.ForMember(dest => dest.CoverImageUrl, opt => opt.MapFrom(src => src.CoverImageUrl))
+            //.ForMember(dest => dest.Skills, opt => opt.MapFrom(src => src.Skills))
+            //.ForMember(dest => dest.Experience, opt => opt.MapFrom(src => src.Experience))
+            //.ForMember(dest => dest.ContactUrl, opt => opt.MapFrom(src => src.ContactUrl))
+            //.ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.PortfolioImages))
+            //.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
 
-            CreateMap<Portfolio, PortfolioCreateModel>().ReverseMap();
-            CreateMap<Portfolio, PortfolioUpdateModel>().ReverseMap();
+            //CreateMap<Portfolio, PortfolioCreateModel>().ReverseMap();
+            //CreateMap<Portfolio, PortfolioUpdateModel>().ReverseMap();
+            //        CreateMap<Portfolio, PortfolioModel>()
+            //.ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.PortfolioImages.Select(pi => pi.ImageUrl).ToList()))
+            //.ReverseMap();
+
+            //        CreateMap<PortfolioImage, PortfolioImageModel>().ReverseMap();
+            //        CreateMap<Portfolio, PortfolioCreateModel>().ReverseMap();
+            //        CreateMap<Portfolio, PortfolioUpdateModel>().ReverseMap();
+            CreateMap<Portfolio, PortfolioModel>()
+                    .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.PortfolioImages.Select(pi => pi.ImageUrl).ToList()))
+                    .ReverseMap();
+
+            CreateMap<PortfolioImage, PortfolioImageModel>().ReverseMap();
+
+            // 🔥 Sửa lại ánh xạ từ PortfolioCreateModel sang Portfolio
+            CreateMap<PortfolioCreateModel, Portfolio>()
+                .ForMember(dest => dest.PortfolioImages, opt => opt.Ignore());
+
 
         }
     }

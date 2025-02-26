@@ -40,6 +40,7 @@ namespace SHOCA.API.Controllers
             }
         }
 
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetArtworkById(Guid id)
         {

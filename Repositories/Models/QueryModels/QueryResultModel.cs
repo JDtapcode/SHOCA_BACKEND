@@ -10,5 +10,11 @@ namespace Repositories.Models.QueryModels
     {
         public int TotalCount { get; set; }
         public TEntity? Data { get; set; }
+        public QueryResultModel() { }
+        public QueryResultModel(TEntity data, int totalCount)
+        {
+            Data = data;
+            TotalCount = totalCount;
+        }
     }
 }

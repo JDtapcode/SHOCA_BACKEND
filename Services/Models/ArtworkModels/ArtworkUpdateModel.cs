@@ -14,5 +14,7 @@ namespace Services.Models.ArtworkModels
         public string? ThumbnailUrl { get; set; }
         public decimal Price { get; set; }
         public List<Guid> CategoryIds { get; set; }
+        public List<string> ImageUrls { get; set; } = new List<string>();
+
     }
 }

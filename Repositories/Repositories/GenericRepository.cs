@@ -186,5 +186,66 @@ namespace Repositories.Repositories
         {
             _dbSet.RemoveRange(entities);
         }
+
+        public Task<List<TEntity>> GetAllAsyncs(string include = "")
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<QueryResultModel<List<TEntity>>> GetAllAsync(
+    Expression<Func<TEntity, bool>>? filter = null,
+    int pageIndex = 1,
+    int pageSize = 10,
+    params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            // Áp dụng bộ lọc nếu có
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            // Include các bảng liên quan
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            // Kiểm tra nếu có navigation nhiều cấp
+            if (typeof(TEntity) == typeof(Artwork))
+            {
+                query = query.Include("ArtworkCategories.Category"); 
+            }
+
+            int totalCount = await query.CountAsync();
+
+            var data = await query
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new QueryResultModel<List<TEntity>>(data, totalCount);
+        }
+       
+        public async Task<TEntity?> GetAsync(Guid id, params string[] includes)
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include); 
+            }
+
+            return await query.FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+
+
+
+
+
+
+
     }
 }

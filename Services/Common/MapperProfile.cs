@@ -123,14 +123,19 @@ namespace Services.Common
             //        CreateMap<Portfolio, PortfolioCreateModel>().ReverseMap();
             //        CreateMap<Portfolio, PortfolioUpdateModel>().ReverseMap();
             CreateMap<Portfolio, PortfolioModel>()
-                    .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.PortfolioImages.Select(pi => pi.ImageUrl).ToList()))
-                    .ReverseMap();
+                        .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src =>
+                            src.PortfolioImages.Select(pi => pi.ArtworkImage.FileUrl).ToList()))
+                        .ReverseMap();
 
             CreateMap<PortfolioImage, PortfolioImageModel>().ReverseMap();
 
-            // 🔥 Sửa lại ánh xạ từ PortfolioCreateModel sang Portfolio
             CreateMap<PortfolioCreateModel, Portfolio>()
-                .ForMember(dest => dest.PortfolioImages, opt => opt.Ignore());
+                .ForMember(dest => dest.PortfolioImages, opt => opt.MapFrom(src =>
+                    src.Images.Select(img => new PortfolioImage
+                    {
+                        ArtworkImageId = img.ArtworkImageId
+                    }).ToList()
+                ));
 
 
         }

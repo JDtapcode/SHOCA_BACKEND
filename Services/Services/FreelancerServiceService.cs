@@ -59,20 +59,34 @@ namespace Services.Services
 
         public async Task<Pagination<FreelancerServiceModel>> GetAllFreelancerServicesAsync(FreelancerServiceFilterModel filterModel)
         {
+            //var queryResult = await _unitOfWork.FreelancerServiceRepository.GetAllAsync(
+            //    filter: s => (s.IsDeleted == filterModel.isDelete) &&
+            //                 (filterModel.MinPrice == null || s.Price >= filterModel.MinPrice) &&
+            //                 (filterModel.MaxPrice == null || s.Price <= filterModel.MaxPrice) &&
+            //                 (filterModel.MinDeliveryTime == null || s.DeliveryTime >= filterModel.MinDeliveryTime) &&
+            //                 (filterModel.MaxDeliveryTime == null || s.DeliveryTime <= filterModel.MaxDeliveryTime) &&
+            //                 (filterModel.NumConcepts == null || s.NumConcepts == filterModel.NumConcepts) &&
+            //         (filterModel.NumRevisions == null || s.NumRevisions == filterModel.NumRevisions) &&
+            //         (filterModel.UserId == Guid.Empty || s.UserId == filterModel.UserId) ,
+            //    //(string.IsNullOrEmpty(filterModel.) || s.Name.Contains(filterModel.Name)),
+            //    include: "Category",
+            //    pageIndex: filterModel.PageIndex,
+            //    pageSize: filterModel.PageSize
+            //);
             var queryResult = await _unitOfWork.FreelancerServiceRepository.GetAllAsync(
-                filter: s => (s.IsDeleted == filterModel.isDelete) &&
-                             (filterModel.MinPrice == null || s.Price >= filterModel.MinPrice) &&
-                             (filterModel.MaxPrice == null || s.Price <= filterModel.MaxPrice) &&
-                             (filterModel.MinDeliveryTime == null || s.DeliveryTime >= filterModel.MinDeliveryTime) &&
-                             (filterModel.MaxDeliveryTime == null || s.DeliveryTime <= filterModel.MaxDeliveryTime) &&
-                             (filterModel.NumConcepts == null || s.NumConcepts == filterModel.NumConcepts) &&
-                     (filterModel.NumRevisions == null || s.NumRevisions == filterModel.NumRevisions) &&
-                     (filterModel.UserId == Guid.Empty || s.UserId == filterModel.UserId) ,
-                //(string.IsNullOrEmpty(filterModel.) || s.Name.Contains(filterModel.Name)),
-                include: "Category",
-                pageIndex: filterModel.PageIndex,
-                pageSize: filterModel.PageSize
-            );
+    filter: s => (s.IsDeleted == filterModel.isDelete) &&
+                 (filterModel.MinPrice == null || s.Price >= filterModel.MinPrice) &&
+                 (filterModel.MaxPrice == null || s.Price <= filterModel.MaxPrice) &&
+                 (filterModel.MinDeliveryTime == null || s.DeliveryTime >= filterModel.MinDeliveryTime) &&
+                 (filterModel.MaxDeliveryTime == null || s.DeliveryTime <= filterModel.MaxDeliveryTime) &&
+                 (filterModel.NumConcepts == null || s.NumConcepts == filterModel.NumConcepts) &&
+                 (filterModel.NumRevisions == null || s.NumRevisions == filterModel.NumRevisions) &&
+                 (filterModel.UserId == Guid.Empty || s.UserId == filterModel.UserId),
+    pageIndex: filterModel.PageIndex,
+    pageSize: filterModel.PageSize,
+    includes: s => s.Category // 🟢 Sửa lỗi: Chuyển "Category" thành biểu thức
+);
+
 
             var services = _mapper.Map<List<FreelancerServiceModel>>(queryResult.Data);
             return new Pagination<FreelancerServiceModel>(services, filterModel.PageIndex, filterModel.PageSize, queryResult.TotalCount);

@@ -9,6 +9,7 @@ using Services.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -83,14 +84,25 @@ namespace Services.Services
 
         public async Task<Pagination<RatingModel>> GetRatingsByArtworkAsync(RatingFilterModel model)
         {
+            //var queryResult = await _unitOfWork.RatingRepository.GetAllAsync(
+            //    filter: r => (r.IsDeleted == model.isDelete) && (model.ArtworkId == null || r.ArtworkId == model.ArtworkId) &&
+            //                 (model.AccountId == null || r.CustomerId == model.AccountId) &&
+            //         (model.RatingValue == null || r.RatingValue == model.RatingValue),
+            //    include: "Customer,Artwork,CommentsList",
+            //    pageIndex: model.PageIndex,
+            //    pageSize: model.PageSize
+            //);
             var queryResult = await _unitOfWork.RatingRepository.GetAllAsync(
-                filter: r => (r.IsDeleted == model.isDelete) && (model.ArtworkId == null || r.ArtworkId == model.ArtworkId) &&
-                             (model.AccountId == null || r.CustomerId == model.AccountId) &&
-                     (model.RatingValue == null || r.RatingValue == model.RatingValue),
-                include: "Customer,Artwork,CommentsList",
-                pageIndex: model.PageIndex,
-                pageSize: model.PageSize
-            );
+     filter: r => (r.IsDeleted == model.isDelete) &&
+                  (model.ArtworkId == null || r.ArtworkId == model.ArtworkId) &&
+                  (model.AccountId == null || r.CustomerId == model.AccountId) &&
+                  (model.RatingValue == null || r.RatingValue == model.RatingValue),
+     pageIndex: model.PageIndex,
+     pageSize: model.PageSize,
+     includes: new Expression<Func<Rating, object>>[] { r => r.Customer, r => r.Artwork, r => r.CommentsList } 
+ );
+
+
 
             var ratings = _mapper.Map<List<RatingModel>>(queryResult.Data);
             return new Pagination<RatingModel>(ratings, model.PageIndex, model.PageSize, queryResult.TotalCount);

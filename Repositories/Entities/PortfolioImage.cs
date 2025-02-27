@@ -13,6 +13,6 @@ namespace Repositories.Entities
 
         public Guid ArtworkImageId { get; set; }
         public ArtworkImage ArtworkImage { get; set; }
-        public string ImageUrl { get; set; }
+        public string ImageUrl => ArtworkImage.FileUrl;
     }
 }

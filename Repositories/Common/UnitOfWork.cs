@@ -38,7 +38,7 @@ namespace Repositories.Common
             _transactionRepository = transactionRepository;
             _accountProPackageRepository = accountProPackageRepository;
             _artworkImageRepository = artworkImageRepository;
-            _portfolioRepository = portfolioRepository;
+            _portfolioImageRepository=portfolioImageRepository;
         }
         public AppDbContext DbContext => _dbContext;
 

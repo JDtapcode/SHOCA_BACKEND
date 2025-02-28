@@ -14,14 +14,54 @@ namespace Repositories.Repositories
 {
     public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
+        private readonly AppDbContext _context;
         protected DbSet<TEntity> _dbSet;
         private readonly IClaimsService _claimsService;
 
         public GenericRepository(AppDbContext dbContext, IClaimsService claimsService)
         {
+            _context = dbContext;
             _dbSet = dbContext.Set<TEntity>();
             _claimsService = claimsService;
         }
+        public async Task<(List<TEntity> Data, int TotalCount)> GetAllAsyncs(
+    Expression<Func<TEntity, bool>>? filter = null,
+    int pageIndex = 1,
+    int pageSize = 10,
+    params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            // Áp dụng bộ lọc (nếu có)
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            // Bao gồm các thuộc tính liên quan
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            // Nếu entity là Artwork, cần include ArtworkCategories và Category
+            if (typeof(TEntity) == typeof(Artwork))
+            {
+                query = query.Include("ArtworkCategories.Category");
+            }
+
+            // Lấy tổng số bản ghi
+            int totalCount = await query.CountAsync();
+
+            // Lấy dữ liệu có phân trang
+            List<TEntity> data = await query
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (data, totalCount);
+        }
+
 
         public virtual async Task<TEntity?> GetAsync(Guid id, string include = "")
         {
@@ -187,41 +227,41 @@ namespace Repositories.Repositories
             _dbSet.RemoveRange(entities);
         }
 
-    //    public async Task<QueryResultModel<List<TEntity>>> GetAllAsync(
-    //Expression<Func<TEntity, bool>>? filter = null,
-    //int pageIndex = 1,
-    //int pageSize = 10,
-    //params Expression<Func<TEntity, object>>[] includes)
-    //    {
-    //        IQueryable<TEntity> query = _dbSet;
+        //    public async Task<QueryResultModel<List<TEntity>>> GetAllAsync(
+        //Expression<Func<TEntity, bool>>? filter = null,
+        //int pageIndex = 1,
+        //int pageSize = 10,
+        //params Expression<Func<TEntity, object>>[] includes)
+        //    {
+        //        IQueryable<TEntity> query = _dbSet;
 
-    //        // Áp dụng bộ lọc nếu có
-    //        if (filter != null)
-    //        {
-    //            query = query.Where(filter);
-    //        }
+        //        // Áp dụng bộ lọc nếu có
+        //        if (filter != null)
+        //        {
+        //            query = query.Where(filter);
+        //        }
 
-    //        // Include các bảng liên quan
-    //        foreach (var include in includes)
-    //        {
-    //            query = query.Include(include);
-    //        }
+        //        // Include các bảng liên quan
+        //        foreach (var include in includes)
+        //        {
+        //            query = query.Include(include);
+        //        }
 
-    //        // Kiểm tra nếu có navigation nhiều cấp
-    //        if (typeof(TEntity) == typeof(Artwork))
-    //        {
-    //            query = query.Include("ArtworkCategories.Category");
-    //        }
+        //        // Kiểm tra nếu có navigation nhiều cấp
+        //        if (typeof(TEntity) == typeof(Artwork))
+        //        {
+        //            query = query.Include("ArtworkCategories.Category");
+        //        }
 
-    //        int totalCount = await query.CountAsync();
+        //        int totalCount = await query.CountAsync();
 
-    //        var data = await query
-    //            .Skip((pageIndex - 1) * pageSize)
-    //            .Take(pageSize)
-    //            .ToListAsync();
+        //        var data = await query
+        //            .Skip((pageIndex - 1) * pageSize)
+        //            .Take(pageSize)
+        //            .ToListAsync();
 
-    //        return new QueryResultModel<List<TEntity>>(data, totalCount);
-    //    }
+        //        return new QueryResultModel<List<TEntity>>(data, totalCount);
+        //    }
 
         public async Task<TEntity?> GetAsync(Guid id, params string[] includes)
         {
@@ -302,7 +342,7 @@ namespace Repositories.Repositories
             return await query.FirstOrDefaultAsync();
         }
 
-      
+
 
         public async Task<List<TEntity>> GetAllWithoutPagingAsync(Expression<Func<TEntity, bool>>? filter = null, params Expression<Func<TEntity, object>>[] includes)
         {
@@ -385,7 +425,6 @@ namespace Repositories.Repositories
             return (data, totalCount);
         }
 
-        
     }
 }
 //using Microsoft.EntityFrameworkCore;

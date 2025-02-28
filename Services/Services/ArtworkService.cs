@@ -100,10 +100,10 @@ namespace Services.Services
             return new ResponseModel { Status = true, Message = "Artwork deleted successfully" };
         }
 
-    
+
         public async Task<Pagination<ArtworkModel>> GetAllArtworkAsync(ArtworkFilterModel filterModel)
         {
-            var queryResult = await _unitOfWork.ArtworkRepository.GetAllAsync(
+            var queryResult = await _unitOfWork.ArtworkRepository.GetAllAsyncs(
                 a => (a.IsDeleted == filterModel.isDeleted) &&
                      (filterModel.MinPrice == null || a.Price >= filterModel.MinPrice) &&
                      (filterModel.MaxPrice == null || a.Price <= filterModel.MaxPrice) &&

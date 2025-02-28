@@ -73,7 +73,7 @@ namespace Services.Common
             CreateMap<Artwork, ArtworkModel>()
     .ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
         src.ArtworkCategories != null
-        ? src.ArtworkCategories.Select(ac => ac.Category != null ? ac.Category.Name : "Unknown").ToList() 
+        ? src.ArtworkCategories.Select(ac => ac.Category != null ? ac.Category.Name : "Unknown").ToList()
         : new List<string>()
     ))
     .ForMember(dest => dest.Images, opt => opt.MapFrom(src =>
@@ -81,7 +81,7 @@ namespace Services.Common
         ? src.Images.Select(img => img.FileUrl).ToList()
         : new List<string>() // ✅ Tránh null
     ))
-    .ReverseMap();
+.ReverseMap();
 
             CreateMap<Artwork, ArtworkCreateModel>().ReverseMap();
             CreateMap<Artwork, ArtworkUpdateModel>().ReverseMap();

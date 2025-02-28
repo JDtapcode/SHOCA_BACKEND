@@ -33,6 +33,11 @@ namespace Repositories.Interfaces
         //        int? pageIndex = null,
         //        int? pageSize = null
         //    );
+        Task<(List<TEntity> Data, int TotalCount)> GetAllAsyncs(
+    Expression<Func<TEntity, bool>>? filter = null,
+    int pageIndex = 1,
+    int pageSize = 10,
+    params Expression<Func<TEntity, object>>[] includes);
         Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes);
 
         // Lấy danh sách entity có phân trang

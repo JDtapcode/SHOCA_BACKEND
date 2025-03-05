@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Repositories.Entities;
 using Repositories.Interfaces;
+using Repositories.Models.ArtworkImageModels;
 using Repositories.Models.ArtworkModels;
 using Services.Common;
 using Services.Interfaces;
@@ -51,9 +52,11 @@ namespace Services.Services
             {
                 artwork.Images = model.ImageUrls.Select(url => new ArtworkImage
                 {
-                    FileUrl = url
+                    FileUrl = url,
+                    CreatedBy = model.CreatorId.GetValueOrDefault(Guid.Empty)
                 }).ToList();
             }
+
 
             await _unitOfWork.ArtworkRepository.AddAsync(artwork);
             await _unitOfWork.SaveChangeAsync();
@@ -89,16 +92,37 @@ namespace Services.Services
             return new ResponseModel { Status = true, Message = "Artwork updated successfully" };
         }
 
+        //public async Task<ResponseModel> DeleteArtworkAsync(Guid id)
+        //{
+        //    var artwork = await _unitOfWork.ArtworkRepository.GetAsync(id);
+        //    if (artwork == null) return new ResponseModel { Status = false, Message = "Artwork not found" };
+
+        //    _unitOfWork.ArtworkRepository.SoftDelete(artwork);
+        //    await _unitOfWork.SaveChangeAsync();
+
+        //    return new ResponseModel { Status = true, Message = "Artwork deleted successfully" };
+        //}
         public async Task<ResponseModel> DeleteArtworkAsync(Guid id)
         {
-            var artwork = await _unitOfWork.ArtworkRepository.GetAsync(id);
-            if (artwork == null) return new ResponseModel { Status = false, Message = "Artwork not found" };
+            var artwork = await _unitOfWork.ArtworkRepository.GetArtworkWithImagesAsync(id);
+            if (artwork == null)
+                return new ResponseModel { Status = false, Message = "Artwork not found" };
 
-            _unitOfWork.ArtworkRepository.SoftDelete(artwork);
+            // Đánh dấu tất cả ảnh của Artwork là đã xóa
+            foreach (var image in artwork.Images)
+            {
+                image.IsDeleted = true;
+            }
+
+            // Đánh dấu Artwork là đã xóa
+            artwork.IsDeleted = true;
+
             await _unitOfWork.SaveChangeAsync();
 
             return new ResponseModel { Status = true, Message = "Artwork deleted successfully" };
         }
+
+
 
 
         public async Task<Pagination<ArtworkModel>> GetAllArtworkAsync(ArtworkFilterModel filterModel)
@@ -156,6 +180,28 @@ namespace Services.Services
             await _unitOfWork.SaveChangeAsync();
 
             return new ResponseModel { Status = true, Message = "Artwork restored successfully" };
+        }
+
+        public async Task<ResponseList<List<ArtworkImageModel>>> GetArtworkImagesByCreatorAsync(Guid creatorId)
+        {
+            var (imageList, totalCount) = await _unitOfWork.ArtworkImageRepository
+       .GetAllAsync(img => img.CreatedBy == creatorId && !img.IsDeleted);
+            if (!imageList.Any())
+                return new ResponseList<List<ArtworkImageModel>>
+                {
+                    Status = false,
+                    Message = "No images found",
+                    Data = null
+                };
+
+            var imageModels = _mapper.Map<List<ArtworkImageModel>>(imageList);
+
+            return new ResponseList<List<ArtworkImageModel>>
+            {
+                Status = true,
+                Message = "Artwork images retrieved successfully",
+                Data = imageModels
+            };
         }
     }
 

@@ -338,7 +338,7 @@ namespace Services.Services
                     pageIndex: 1, pageSize: int.MaxValue))
                     .Data
                     .Select(p => p.ArtworkImageId)
-                    .ToHashSet(); // Chuyển thành HashSet để kiểm tra nhanh hơn
+                    .ToHashSet(); 
 
                 var newPortfolioImages = model.Images
                     .Where(img => !existingPortfolioImages.Contains(img.ArtworkImageId)) // Tránh trùng lặp

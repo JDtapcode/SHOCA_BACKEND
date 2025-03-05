@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SHOCA.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3bd9b0d6a3eee5fde9f1f843e7386b4451537d81")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7bbb4ea099f64d6ed7f46008b54b75be289bb9cc")]
 [assembly: System.Reflection.AssemblyProductAttribute("SHOCA.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SHOCA.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

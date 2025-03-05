@@ -24,5 +24,12 @@ namespace Repositories.Repositories
                 .Include(a => a.Images)              
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
+
+        public async Task<Artwork?> GetArtworkWithImagesAsync(Guid id)
+        {
+            return await _dbContext.Artworks
+                .Include(a => a.Images)
+                .FirstOrDefaultAsync(a => a.Id == id);
+        }
     }
 }

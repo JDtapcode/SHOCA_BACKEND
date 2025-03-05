@@ -1,4 +1,5 @@
-﻿using Repositories.Models.ArtworkModels;
+﻿using Repositories.Models.ArtworkImageModels;
+using Repositories.Models.ArtworkModels;
 using Services.Common;
 using Services.Models.ArtworkModels;
 using Services.Models.ResponseModels;
@@ -18,5 +19,6 @@ namespace Services.Interfaces
         Task<ResponseModel> DeleteArtworkAsync(Guid id);
         Task<ResponseDataModel<ArtworkModel>> GetArtworkByIdAsync(Guid id);
         Task<ResponseModel> RestoreArtwork(Guid id);
+        Task<ResponseList<List<ArtworkImageModel>>> GetArtworkImagesByCreatorAsync(Guid creatorId);
     }
 }

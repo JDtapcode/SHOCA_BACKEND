@@ -319,6 +319,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SHOCA.API.Controllers.ArtworkController",
+    "Method": "GetArtworkImagesByCreator",
+    "RelativePath": "api/v1/artworks/images-by-creator/{creatorId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "creatorId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SHOCA.API.Controllers.AuthenticationController",
     "Method": "ResendVerificationEmail",
     "RelativePath": "api/v1/authentication/email/resend-verification",

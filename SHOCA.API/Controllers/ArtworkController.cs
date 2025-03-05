@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Services.Interfaces;
 using Services.Models.ArtworkModels;
+using Services.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -39,6 +40,18 @@ namespace SHOCA.API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet("images-by-creator/{creatorId}")]
+        public async Task<IActionResult> GetArtworkImagesByCreator(Guid creatorId)
+        {
+            var result = await _service.GetArtworkImagesByCreatorAsync(creatorId);
+
+            if (!result.Status)
+                return NotFound(result);
+
+            return Ok(result);
+        }
+
 
 
         [HttpGet("{id}")]

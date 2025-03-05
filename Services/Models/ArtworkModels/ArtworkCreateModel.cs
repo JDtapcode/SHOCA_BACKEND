@@ -12,7 +12,7 @@ namespace Services.Models.ArtworkModels
         public string? Description { get; set; }
         public string? ThumbnailUrl { get; set; }
         public decimal Price { get; set; }
-        public Guid CreatorId { get; set; }
+        public Guid? CreatorId { get; set; }
         public List<string> ImageUrls { get; set; } = new List<string>();
         public List<Guid> CategoryIds { get; set; }
     }

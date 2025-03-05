@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Repositories.Entities;
 using Repositories.Models.AccountModels;
+using Repositories.Models.ArtworkImageModels;
 using Repositories.Models.ArtworkModels;
 using Repositories.Models.CategoryModels;
 using Repositories.Models.FreelancerServiceModels;
@@ -96,6 +97,7 @@ namespace Services.Common
                 .ForMember(dest => dest.AccountName, opt => opt.MapFrom(src => src.Account != null ? src.Account.FirstName + " " + src.Account.LastName : string.Empty))
                 .ForMember(dest => dest.ChildComments, opt => opt.MapFrom(src => src.ChildComments))
                 .ReverseMap();
+            CreateMap<ArtworkImage, ArtworkImageModel>();
 
             //ProPackage
             CreateMap<ProPackage, ProPackageModel>().ReverseMap();

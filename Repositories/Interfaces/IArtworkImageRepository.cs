@@ -9,5 +9,6 @@ namespace Repositories.Interfaces
 {
     public interface IArtworkImageRepository : IGenericRepository<ArtworkImage>
     {
+        Task<List<ArtworkImage>> GetByCreatedByAsync(Guid createdBy);
     }
 }

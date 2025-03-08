@@ -435,6 +435,7 @@ namespace Services.Services
             return new ResponseDataModel<PortfolioModel> { Status = true, Data = portfolioModel };
         }
 
+
         public async Task<Pagination<PortfolioModel>> GetAllPortfolioAsync(PortfolioFilterModel filterModel)
         {
             var queryResult = await _unitOfWork.PortfolioRepository.GetAllWithDetailsAsync(
@@ -443,12 +444,31 @@ namespace Services.Services
                 filterModel.PageSize
             );
 
+            // Ánh xạ danh sách Portfolio sang PortfolioDto
             var portfolios = _mapper.Map<List<PortfolioModel>>(queryResult.Data);
-            portfolios.ForEach(portfolio => portfolio.ImageUrls = queryResult.Data.FirstOrDefault(p => p.Id == portfolio.Id)?.PortfolioImages
-                .Select(pi => pi.ArtworkImage.FileUrl).ToList());
 
             return new Pagination<PortfolioModel>(portfolios, filterModel.PageIndex, filterModel.PageSize, queryResult.TotalCount);
         }
+
+
+
+
+
+
+        //public async Task<Pagination<PortfolioModel>> GetAllPortfolioAsync(PortfolioFilterModel filterModel)
+        //{
+        //    var queryResult = await _unitOfWork.PortfolioRepository.GetAllWithDetailsAsync(
+        //        p => p.IsDeleted == filterModel.isDelete,
+        //        filterModel.PageIndex,
+        //        filterModel.PageSize
+        //    );
+
+        //    var portfolios = _mapper.Map<List<PortfolioModel>>(queryResult.Data);
+        //    portfolios.ForEach(portfolio => portfolio.ImageUrls = queryResult.Data.FirstOrDefault(p => p.Id == portfolio.Id)?.PortfolioImages
+        //        .Select(pi => pi.ArtworkImage.FileUrl).ToList());
+
+        //    return new Pagination<PortfolioModel>(portfolios, filterModel.PageIndex, filterModel.PageSize, queryResult.TotalCount);
+        //}
 
         public async Task<ResponseModel> RestorePortfolio(Guid id)
         {

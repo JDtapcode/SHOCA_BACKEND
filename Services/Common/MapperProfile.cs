@@ -108,17 +108,14 @@ namespace Services.Common
             CreateMap<Portfolio, PortfolioModel>()
                         .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src =>
                             src.PortfolioImages.Select(pi => pi.ArtworkImage.FileUrl).ToList()))
+                        .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
                         .ReverseMap();
+
+            CreateMap<Account, UserDto>();
 
             CreateMap<PortfolioImage, PortfolioImageModel>().ReverseMap();
 
-            //CreateMap<PortfolioCreateModel, Portfolio>()
-            //    .ForMember(dest => dest.PortfolioImages, opt => opt.MapFrom(src =>
-            //        src.Images.Select(img => new PortfolioImage
-            //        {
-            //            ArtworkImageId = img.ArtworkImageId
-            //        }).ToList()
-            //    ));
+           
             CreateMap<PortfolioCreateModel, Portfolio>()
     .ForMember(dest => dest.PortfolioImages, opt => opt.MapFrom(src =>
         src.ArtworkImageIds.Select(id => new PortfolioImage
@@ -127,6 +124,14 @@ namespace Services.Common
         }).ToList()
     ));
 
+
+            //CreateMap<PortfolioCreateModel, Portfolio>()
+            //    .ForMember(dest => dest.PortfolioImages, opt => opt.MapFrom(src =>
+            //        src.Images.Select(img => new PortfolioImage
+            //        {
+            //            ArtworkImageId = img.ArtworkImageId
+            //        }).ToList()
+            //    ));
 
 
         }

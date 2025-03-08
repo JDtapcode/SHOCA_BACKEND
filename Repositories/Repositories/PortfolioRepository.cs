@@ -24,9 +24,27 @@ namespace Repositories.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<QueryResultModel<List<Portfolio>>> GetAllWithDetailsAsync(Expression<Func<Portfolio, bool>>? filter = null, int pageIndex = 1, int pageSize = 10)
+        //public async Task<QueryResultModel<List<Portfolio>>> GetAllWithDetailsAsync(Expression<Func<Portfolio, bool>>? filter = null, int pageIndex = 1, int pageSize = 10)
+        //{
+        //    IQueryable<Portfolio> query = _dbSet
+        //        .Include(p => p.PortfolioImages)
+        //        .ThenInclude(pi => pi.ArtworkImage);
+
+        //    if (filter != null)
+        //    {
+        //        query = query.Where(filter);
+        //    }
+
+        //    int totalCount = await query.CountAsync();
+        //    var data = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+
+        //    return new QueryResultModel<List<Portfolio>>(data, totalCount);
+        //}
+        public async Task<QueryResultModel<List<Portfolio>>> GetAllWithDetailsAsync(
+    Expression<Func<Portfolio, bool>>? filter = null, int pageIndex = 1, int pageSize = 10)
         {
             IQueryable<Portfolio> query = _dbSet
+                .Include(p => p.User) // ✅ Include User để tránh null
                 .Include(p => p.PortfolioImages)
                 .ThenInclude(pi => pi.ArtworkImage);
 
@@ -40,5 +58,6 @@ namespace Repositories.Repositories
 
             return new QueryResultModel<List<Portfolio>>(data, totalCount);
         }
+
     }
 }

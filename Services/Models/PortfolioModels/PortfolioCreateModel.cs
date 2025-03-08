@@ -15,6 +15,7 @@ namespace Services.Models.PortfolioModels
         public string? Skills { get; set; }
         public string? Experience { get; set; }
         public string? ContactUrl { get; set; }
-        public List<PortfolioImageModel> Images { get; set; } = new();
+        //public List<PortfolioImageModel> Images { get; set; } = new();
+        public List<Guid> ArtworkImageIds { get; set; }
     }
 }

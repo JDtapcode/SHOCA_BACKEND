@@ -104,26 +104,7 @@ namespace Services.Common
             CreateMap<ProPackageCreateModel, ProPackage>();
             CreateMap<ProPackageUpdateModel, ProPackage>();
 
-            //Portfolio
-            //CreateMap<Portfolio, PortfolioModel>()
-            //.ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
-            //.ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-            //.ForMember(dest => dest.CoverImageUrl, opt => opt.MapFrom(src => src.CoverImageUrl))
-            //.ForMember(dest => dest.Skills, opt => opt.MapFrom(src => src.Skills))
-            //.ForMember(dest => dest.Experience, opt => opt.MapFrom(src => src.Experience))
-            //.ForMember(dest => dest.ContactUrl, opt => opt.MapFrom(src => src.ContactUrl))
-            //.ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.PortfolioImages))
-            //.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
 
-            //CreateMap<Portfolio, PortfolioCreateModel>().ReverseMap();
-            //CreateMap<Portfolio, PortfolioUpdateModel>().ReverseMap();
-            //        CreateMap<Portfolio, PortfolioModel>()
-            //.ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.PortfolioImages.Select(pi => pi.ImageUrl).ToList()))
-            //.ReverseMap();
-
-            //        CreateMap<PortfolioImage, PortfolioImageModel>().ReverseMap();
-            //        CreateMap<Portfolio, PortfolioCreateModel>().ReverseMap();
-            //        CreateMap<Portfolio, PortfolioUpdateModel>().ReverseMap();
             CreateMap<Portfolio, PortfolioModel>()
                         .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src =>
                             src.PortfolioImages.Select(pi => pi.ArtworkImage.FileUrl).ToList()))
@@ -131,13 +112,21 @@ namespace Services.Common
 
             CreateMap<PortfolioImage, PortfolioImageModel>().ReverseMap();
 
+            //CreateMap<PortfolioCreateModel, Portfolio>()
+            //    .ForMember(dest => dest.PortfolioImages, opt => opt.MapFrom(src =>
+            //        src.Images.Select(img => new PortfolioImage
+            //        {
+            //            ArtworkImageId = img.ArtworkImageId
+            //        }).ToList()
+            //    ));
             CreateMap<PortfolioCreateModel, Portfolio>()
-                .ForMember(dest => dest.PortfolioImages, opt => opt.MapFrom(src =>
-                    src.Images.Select(img => new PortfolioImage
-                    {
-                        ArtworkImageId = img.ArtworkImageId
-                    }).ToList()
-                ));
+    .ForMember(dest => dest.PortfolioImages, opt => opt.MapFrom(src =>
+        src.ArtworkImageIds.Select(id => new PortfolioImage
+        {
+            ArtworkImageId = id
+        }).ToList()
+    ));
+
 
 
         }

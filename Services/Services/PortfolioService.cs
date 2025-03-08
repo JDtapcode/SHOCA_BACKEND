@@ -270,43 +270,56 @@ namespace Services.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
-        //    public async Task<ResponseModel> CreatePortfolioAsync(PortfolioCreateModel model)
+        //public async Task<ResponseModel> CreatePortfolioAsync(PortfolioCreateModel model)
+        //{
+        //    if (model == null || string.IsNullOrEmpty(model.Title))
         //    {
-        //        if (model == null || string.IsNullOrEmpty(model.Title))
+        //        return new ResponseModel { Status = false, Message = "Invalid input data" };
+        //    }
+
+        //    var portfolio = _mapper.Map<Portfolio>(model);
+        //    await _unitOfWork.PortfolioRepository.AddAsync(portfolio);
+        //    await _unitOfWork.SaveChangeAsync();
+
+        //    if (model.Images != null && model.Images.Any())
+        //    {
+        //        var artworkImageIds = model.Images.Select(img => img.ArtworkImageId).ToList();
+
+        //        // Lấy danh sách ArtworkImage hợp lệ
+        //        var existingArtworkImages = (await _unitOfWork.ArtworkImageRepository
+        //            .GetAllAsync(a => artworkImageIds.Contains(a.Id), pageIndex: 1, pageSize: int.MaxValue))
+        //            .Data;
+
+        //        if (existingArtworkImages?.Count != artworkImageIds.Count)
         //        {
-        //            return new ResponseModel { Status = false, Message = "Invalid input data" };
+        //            return new ResponseModel { Status = false, Message = "One or more ArtworkImageIds are invalid" };
         //        }
 
-        //        var portfolio = _mapper.Map<Portfolio>(model);
-        //        await _unitOfWork.PortfolioRepository.AddAsync(portfolio);
-        //        await _unitOfWork.SaveChangeAsync();
+        //        // Kiểm tra PortfolioImage đã tồn tại chưa
+        //        var existingPortfolioImages = (await _unitOfWork.PortfolioImageRepository
+        //            .GetAllAsync(p => p.PortfolioId == portfolio.Id && artworkImageIds.Contains(p.ArtworkImageId),
+        //            pageIndex: 1, pageSize: int.MaxValue))
+        //            .Data
+        //            .Select(p => p.ArtworkImageId)
+        //            .ToHashSet(); 
 
-        //        if (model.Images != null && model.Images.Any())
-        //        {
-        //            var artworkImageIds = model.Images.Select(img => img.ArtworkImageId).ToList();
-        //            //var existingArtworkImages = (await _unitOfWork.ArtworkImageRepository.GetAllAsync(a => artworkImageIds.Contains(a.Id))).Data;
-        //            var existingArtworkImages = (await _unitOfWork.ArtworkImageRepository
-        //.GetAllAsync(a => artworkImageIds.Contains(a.Id), pageIndex: 1, pageSize: int.MaxValue))
-        //.Data;
-
-        //            if (existingArtworkImages?.Count != artworkImageIds.Count)
-        //            {
-        //                return new ResponseModel { Status = false, Message = "One or more ArtworkImageIds are invalid" };
-        //            }
-
-        //            var newPortfolioImages = model.Images.Select(img => new PortfolioImage
+        //        var newPortfolioImages = model.Images
+        //            .Where(img => !existingPortfolioImages.Contains(img.ArtworkImageId)) // Tránh trùng lặp
+        //            .Select(img => new PortfolioImage
         //            {
         //                PortfolioId = portfolio.Id,
         //                ArtworkImageId = img.ArtworkImageId
         //            }).ToList();
 
+        //        if (newPortfolioImages.Any())
+        //        {
         //            await _unitOfWork.PortfolioImageRepository.AddRangeAsync(newPortfolioImages);
         //            await _unitOfWork.SaveChangeAsync();
         //        }
-
-        //        return new ResponseModel { Status = true, Message = "Portfolio created successfully" };
         //    }
+
+        //    return new ResponseModel { Status = true, Message = "Portfolio created successfully" };
+        //}
         public async Task<ResponseModel> CreatePortfolioAsync(PortfolioCreateModel model)
         {
             if (model == null || string.IsNullOrEmpty(model.Title))
@@ -318,9 +331,9 @@ namespace Services.Services
             await _unitOfWork.PortfolioRepository.AddAsync(portfolio);
             await _unitOfWork.SaveChangeAsync();
 
-            if (model.Images != null && model.Images.Any())
+            if (model.ArtworkImageIds != null && model.ArtworkImageIds.Any())
             {
-                var artworkImageIds = model.Images.Select(img => img.ArtworkImageId).ToList();
+                var artworkImageIds = model.ArtworkImageIds.ToList();
 
                 // Lấy danh sách ArtworkImage hợp lệ
                 var existingArtworkImages = (await _unitOfWork.ArtworkImageRepository
@@ -338,14 +351,14 @@ namespace Services.Services
                     pageIndex: 1, pageSize: int.MaxValue))
                     .Data
                     .Select(p => p.ArtworkImageId)
-                    .ToHashSet(); 
+                    .ToHashSet();
 
-                var newPortfolioImages = model.Images
-                    .Where(img => !existingPortfolioImages.Contains(img.ArtworkImageId)) // Tránh trùng lặp
-                    .Select(img => new PortfolioImage
+                var newPortfolioImages = artworkImageIds
+                    .Where(id => !existingPortfolioImages.Contains(id)) // Tránh trùng lặp
+                    .Select(id => new PortfolioImage
                     {
                         PortfolioId = portfolio.Id,
-                        ArtworkImageId = img.ArtworkImageId
+                        ArtworkImageId = id
                     }).ToList();
 
                 if (newPortfolioImages.Any())
@@ -357,6 +370,7 @@ namespace Services.Services
 
             return new ResponseModel { Status = true, Message = "Portfolio created successfully" };
         }
+
 
 
         public async Task<ResponseModel> UpdatePortfolioAsync(Guid id, PortfolioUpdateModel model)

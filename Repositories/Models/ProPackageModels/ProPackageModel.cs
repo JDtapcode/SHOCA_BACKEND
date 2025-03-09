@@ -11,7 +11,7 @@ namespace Repositories.Models.ProPackages
     {
         public string? Name { get; set; }
         public decimal Price { get; set; }
-        public string? Feature { get; set; }
+        public List<string> Features { get; set; } 
         public string? Duration { get; set; }
     }
 }

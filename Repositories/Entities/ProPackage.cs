@@ -10,8 +10,9 @@ namespace Repositories.Entities
     {
         public string? Name { get; set; }
         public decimal Price { get; set; }
-        public string? Feature { get; set; }
+        //public string? Feature { get; set; }
         public string? Duration { get; set; }
+        public virtual ICollection<ProPackageFeature> Features { get; set; } = new List<ProPackageFeature>();
 
         public virtual ICollection<AccountProPackage> AccountProPackages { get; set; } = new List<AccountProPackage>();
     }

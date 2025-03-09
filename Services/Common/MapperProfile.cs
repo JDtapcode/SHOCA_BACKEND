@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Repositories.Entities;
 using Repositories.Models.AccountModels;
 using Repositories.Models.ArtworkImageModels;
@@ -67,9 +69,9 @@ namespace Services.Common
             //Artwork
             //CreateMap<Artwork, ArtworkModel>()
             //.ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
-            //    src.ArtworkCategories.Select(ac => ac.Category.Name).ToList())) // ✅ Chỉ lấy Name của Category
+            //    src.ArtworkCategories.Select(ac => ac.Category.Name).ToList())) 
             //.ForMember(dest => dest.Images, opt => opt.MapFrom(src =>
-            //    src.Images.Select(img => img.FileUrl).ToList())) // ✅ Chỉ lấy Image URL
+            //    src.Images.Select(img => img.FileUrl).ToList())) 
             //.ReverseMap();
             CreateMap<Artwork, ArtworkModel>()
     .ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
@@ -99,10 +101,20 @@ namespace Services.Common
                 .ReverseMap();
             CreateMap<ArtworkImage, ArtworkImageModel>();
 
-            //ProPackage
-            CreateMap<ProPackage, ProPackageModel>().ReverseMap();
-            CreateMap<ProPackageCreateModel, ProPackage>();
-            CreateMap<ProPackageUpdateModel, ProPackage>();
+           //Propackage
+            CreateMap<ProPackage, ProPackageModel>()
+      .ForMember(dest => dest.Features, opt => opt.MapFrom(src =>
+          src.Features != null ? src.Features.Select(f => f.Name).ToList() : new List<string>()
+      ))
+      .ReverseMap()
+      .ForMember(dest => dest.Features, opt => opt.Ignore()); 
+
+            CreateMap<ProPackageCreateModel, ProPackage>()
+                .ForMember(dest => dest.Features, opt => opt.Ignore()); 
+
+            CreateMap<ProPackageUpdateModel, ProPackage>()
+                .ForMember(dest => dest.Features, opt => opt.Ignore());
+
 
 
             CreateMap<Portfolio, PortfolioModel>()
@@ -124,14 +136,6 @@ namespace Services.Common
         }).ToList()
     ));
 
-
-            //CreateMap<PortfolioCreateModel, Portfolio>()
-            //    .ForMember(dest => dest.PortfolioImages, opt => opt.MapFrom(src =>
-            //        src.Images.Select(img => new PortfolioImage
-            //        {
-            //            ArtworkImageId = img.ArtworkImageId
-            //        }).ToList()
-            //    ));
 
 
         }

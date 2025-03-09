@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Models.ProPackageModels
+namespace Repositories.Models.ProPackageModels
 {
-    public class ProPackageCreateModel
+    public class ProPackageDTO
     {
+        public Guid Id { get; set; }
         public string? Name { get; set; }
         public decimal Price { get; set; }
-        public List<string> Features { get; set; } = new List<string>();
         public string? Duration { get; set; }
+        public List<string> FeatureNames { get; set; } = new List<string>();
     }
+
 }

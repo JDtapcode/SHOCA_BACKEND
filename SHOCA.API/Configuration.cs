@@ -88,6 +88,7 @@ namespace SHOCA.API
 
             //Image
             services.AddScoped<IArtworkImageRepository, ArtworkImageRepository>();
+            services.AddScoped<IArtworkCategoryRepository, ArtworkCategoryRepository>();
             return services;
         }
         }

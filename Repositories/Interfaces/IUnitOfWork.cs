@@ -22,6 +22,7 @@ namespace Repositories.Interfaces
         IAccountProPackageRepository AccountProPackageRepository { get; }
         IArtworkImageRepository ArtworkImageRepository { get; }
         IPortfolioImageRepository PortfolioImageRepository { get; }
+        IArtworkCategoryRepository ArtworkCategoryRepository {  get; }
         public Task<int> SaveChangeAsync();
     }
 }

@@ -92,7 +92,6 @@ namespace Services.Services
             await _emailService.SendEmailAsync(account.Email!, "Verify your email",
                 $"Your verification code is {account.VerificationCode}. The code will expire in 15 minutes.", true);
         }
-
         public async Task<ResponseDataModel<TokenModel>> Login(AccountLoginModel accountLoginModel)
         {
             var user = await _userManager.FindByNameAsync(accountLoginModel.Email);
@@ -111,11 +110,11 @@ namespace Services.Services
                 if (await _userManager.CheckPasswordAsync(user, accountLoginModel.Password))
                 {
                     var authClaims = new List<Claim>
-                    {
-                        new Claim("userId", user.Id.ToString()),
-                        new Claim("userEmail", user.Email!),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    };
+            {
+                new Claim("userId", user.Id.ToString()),
+                new Claim("userEmail", user.Email!),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
 
                     var userRoles = await _userManager.GetRolesAsync(user);
 
@@ -159,11 +158,13 @@ namespace Services.Services
                             AccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken),
                             AccessTokenExpiryTime = jwtToken.ValidTo.ToLocalTime(),
                             RefreshToken = user.RefreshToken,
+                            UserId = user.Id // Thêm UserId vào đây
                         }
                     };
                 }
             }
 
+            // Nếu không tìm thấy user hoặc mật khẩu sai, trả về thông báo lỗi
             return new ResponseDataModel<TokenModel>
             {
                 Status = false,
@@ -171,6 +172,7 @@ namespace Services.Services
             };
         }
 
+       
         public async Task<ResponseDataModel<TokenModel>> RefreshToken(RefreshTokenModel refreshTokenModel)
         {
             // Validate access token and refresh token

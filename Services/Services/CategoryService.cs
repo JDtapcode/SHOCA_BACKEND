@@ -35,7 +35,6 @@ namespace Services.Services
             var categories = _mapper.Map<List<CategoryModel>>(queryResult.Data);
             return new Pagination<CategoryModel>(categories, filterModel.PageIndex, filterModel.PageSize, queryResult.TotalCount);
         }
-
         public async Task<ResponseModel> CreateCategoryAsync(CategoryCreateModel model)
         {
             if (model == null || string.IsNullOrEmpty(model.Name))
@@ -47,9 +46,14 @@ namespace Services.Services
             await _unitOfWork.CategoryRepository.AddAsync(category);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Category created successfully" };
+            var categoryModel = _mapper.Map<CategoryModel>(category); 
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Category created successfully",
+                Data = categoryModel
+            };
         }
-
         public async Task<ResponseModel> UpdateCategoryAsync(Guid id, CategoryUpdateModel model)
         {
             var category = await _unitOfWork.CategoryRepository.GetAsync(id);
@@ -60,18 +64,31 @@ namespace Services.Services
             _unitOfWork.CategoryRepository.Update(category);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Category updated successfully" };
+            var categoryModel = _mapper.Map<CategoryModel>(category); 
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Category updated successfully",
+                Data = categoryModel
+            };
         }
 
         public async Task<ResponseModel> DeleteCategoryAsync(Guid id)
         {
             var category = await _unitOfWork.CategoryRepository.GetAsync(id);
-            if (category == null) return new ResponseModel { Status = false, Message = "Category not found" };
+            if (category == null)
+                return new ResponseModel { Status = false, Message = "Category not found" };
 
             _unitOfWork.CategoryRepository.SoftDelete(category);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Category deleted successfully" };
+            var categoryModel = _mapper.Map<CategoryModel>(category); 
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Category deleted successfully",
+                Data = categoryModel
+            };
         }
 
         public async Task<ResponseDataModel<CategoryModel>> GetCategoryByIdAsync(Guid id)
@@ -85,7 +102,6 @@ namespace Services.Services
             var categoryModel = _mapper.Map<CategoryModel>(category);
             return new ResponseDataModel<CategoryModel> { Status = true, Data = categoryModel };
         }
-
         public async Task<ResponseModel> RestoreCategory(Guid id)
         {
             var category = await _unitOfWork.CategoryRepository.GetAsync(id);
@@ -106,7 +122,16 @@ namespace Services.Services
             _unitOfWork.CategoryRepository.Update(category);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Category restored successfully" };
+            var categoryModel = _mapper.Map<CategoryModel>(category); 
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Category restored successfully",
+                Data = categoryModel
+            };
         }
+
+       
     }
 }
+

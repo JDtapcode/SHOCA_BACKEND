@@ -10,7 +10,7 @@ namespace Services.Models.ArtworkModels
     {
         public string Title { get; set; }
         public string? Description { get; set; }
-        public string FileUrl { get; set; }
+        //public string FileUrl { get; set; }
         public string? ThumbnailUrl { get; set; }
         public decimal Price { get; set; }
         public List<Guid> CategoryIds { get; set; }

@@ -37,17 +37,14 @@ namespace Services.Services
 
             var artwork = _mapper.Map<Artwork>(model);
 
-            // Thêm danh mục
             if (model.CategoryIds != null && model.CategoryIds.Any())
             {
                 artwork.ArtworkCategories = model.CategoryIds.Select(categoryId => new ArtworkCategory
                 {
-                    ArtworkId = artwork.Id,
                     CategoryId = categoryId
                 }).ToList();
             }
 
-            // Thêm danh sách ảnh
             if (model.ImageUrls != null && model.ImageUrls.Any())
             {
                 artwork.Images = model.ImageUrls.Select(url => new ArtworkImage
@@ -57,16 +54,29 @@ namespace Services.Services
                 }).ToList();
             }
 
-
             await _unitOfWork.ArtworkRepository.AddAsync(artwork);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Artwork created successfully" };
+            // Fetch artwork again to include related data
+            //var createdArtwork = await _unitOfWork.ArtworkRepository
+            //    .GetAsync(artwork.Id, includes: new[] { "ArtworkCategories", "Images" });
+            var createdArtwork = await _unitOfWork.ArtworkRepository
+    .GetAsync(artwork.Id, includes: new[] { "ArtworkCategories", "ArtworkCategories.Category", "Images" });
+            var artworkModel = _mapper.Map<ArtworkModel>(createdArtwork);
+
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Artwork created successfully",
+                Data = artworkModel
+            };
         }
 
         public async Task<ResponseModel> UpdateArtworkAsync(Guid id, ArtworkUpdateModel model)
         {
-            var artwork = await _unitOfWork.ArtworkRepository.GetAsync(id);
+            var artwork = await _unitOfWork.ArtworkRepository
+                .GetAsync(id, includes: new[] { "ArtworkCategories", "Images" });
+
             if (artwork == null)
                 return new ResponseModel { Status = false, Message = "Artwork not found" };
 
@@ -74,9 +84,26 @@ namespace Services.Services
             _unitOfWork.ArtworkRepository.Update(artwork);
             await _unitOfWork.SaveChangeAsync();
 
-            // Cập nhật danh sách ảnh
+            var oldCategories = await _unitOfWork.ArtworkCategoryRepository.GetAllAsync(ac => ac.ArtworkId == id);
+            _unitOfWork.ArtworkCategoryRepository.HardDeleteRange(oldCategories.Data);
+            await _unitOfWork.SaveChangeAsync();
+
+            if (model.CategoryIds != null && model.CategoryIds.Any())
+            {
+                var newCategories = model.CategoryIds.Select(categoryId => new ArtworkCategory
+                {
+                    ArtworkId = artwork.Id,
+                    CategoryId = categoryId
+                }).ToList();
+
+                await _unitOfWork.ArtworkCategoryRepository.AddRangeAsync(newCategories);
+            }
+
+            await _unitOfWork.SaveChangeAsync();
+
             var existingImages = await _unitOfWork.ArtworkImageRepository.GetAllAsync(ai => ai.ArtworkId == id);
-            _unitOfWork.ArtworkImageRepository.HardDeleteRange(existingImages.Data); // Lấy .Data để có List<ArtworkImage>
+            _unitOfWork.ArtworkImageRepository.HardDeleteRange(existingImages.Data);
+
             if (model.ImageUrls != null && model.ImageUrls.Any())
             {
                 var newImages = model.ImageUrls.Select(url => new ArtworkImage
@@ -89,41 +116,48 @@ namespace Services.Services
 
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Artwork updated successfully" };
+            var updatedArtwork = await _unitOfWork.ArtworkRepository
+                .GetAsync(id, includes: new[] { "ArtworkCategories.Category", "Images" });
+
+            var artworkModel = _mapper.Map<ArtworkModel>(updatedArtwork);
+
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Artwork updated successfully",
+                Data = artworkModel
+            };
         }
 
-        //public async Task<ResponseModel> DeleteArtworkAsync(Guid id)
-        //{
-        //    var artwork = await _unitOfWork.ArtworkRepository.GetAsync(id);
-        //    if (artwork == null) return new ResponseModel { Status = false, Message = "Artwork not found" };
 
-        //    _unitOfWork.ArtworkRepository.SoftDelete(artwork);
-        //    await _unitOfWork.SaveChangeAsync();
 
-        //    return new ResponseModel { Status = true, Message = "Artwork deleted successfully" };
-        //}
+
+
         public async Task<ResponseModel> DeleteArtworkAsync(Guid id)
         {
-            var artwork = await _unitOfWork.ArtworkRepository.GetArtworkWithImagesAsync(id);
+            var artwork = await _unitOfWork.ArtworkRepository
+                .GetAsync(id, includes: new[] { "ArtworkCategories", "ArtworkCategories.Category", "Images" });
+
             if (artwork == null)
                 return new ResponseModel { Status = false, Message = "Artwork not found" };
 
-            // Đánh dấu tất cả ảnh của Artwork là đã xóa
             foreach (var image in artwork.Images)
             {
                 image.IsDeleted = true;
             }
 
-            // Đánh dấu Artwork là đã xóa
             artwork.IsDeleted = true;
-
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Artwork deleted successfully" };
+            var artworkModel = _mapper.Map<ArtworkModel>(artwork);
+
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Artwork deleted successfully",
+                Data = artworkModel
+            };
         }
-
-
-
 
         public async Task<Pagination<ArtworkModel>> GetAllArtworkAsync(ArtworkFilterModel filterModel)
         {
@@ -159,18 +193,17 @@ namespace Services.Services
 
             return new ResponseDataModel<ArtworkModel> { Status = true, Data = artworkModel };
         }
+        
         public async Task<ResponseModel> RestoreArtwork(Guid id)
         {
-            var artwork = await _unitOfWork.ArtworkRepository.GetAsync(id);
+            var artwork = await _unitOfWork.ArtworkRepository
+                .GetAsync(id, includes: new[] { "ArtworkCategories", "ArtworkCategories.Category", "Images" });
+
             if (artwork == null)
-            {
                 return new ResponseModel { Status = false, Message = "Artwork not found" };
-            }
 
             if (!artwork.IsDeleted)
-            {
                 return new ResponseModel { Status = false, Message = "Artwork is not deleted" };
-            }
 
             artwork.IsDeleted = false;
             artwork.DeletionDate = null;
@@ -179,8 +212,17 @@ namespace Services.Services
             _unitOfWork.ArtworkRepository.Update(artwork);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Artwork restored successfully" };
+            var artworkModel = _mapper.Map<ArtworkModel>(artwork);
+
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Artwork restored successfully",
+                Data = artworkModel
+            };
         }
+
+
 
         public async Task<ResponseList<List<ArtworkImageModel>>> GetArtworkImagesByCreatorAsync(Guid creatorId)
         {

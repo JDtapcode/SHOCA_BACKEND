@@ -19,7 +19,7 @@
     "ContainingType": "SHOCA.API.Controllers.PackagePaymentController",
     "Method": "HandlePaymentReturn",
     "RelativePath": "api/payments/handle-payment-return",
-    "HttpMethod": "GET",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [

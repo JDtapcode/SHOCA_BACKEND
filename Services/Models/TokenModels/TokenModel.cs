@@ -11,5 +11,6 @@ namespace Services.Models.TokenModels
         public required string AccessToken { get; set; }
         public DateTime AccessTokenExpiryTime { get; set; }
         public string? RefreshToken { get; set; }
+        public Guid UserId { get; set; }
     }
 }

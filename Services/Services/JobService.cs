@@ -36,18 +36,31 @@ namespace Services.Services
             await _unitOfWork.JobRepository.AddAsync(job);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Job created successfully" };
+            var jobModel = _mapper.Map<JobModel>(job); 
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Job created successfully",
+                Data = jobModel
+            };
         }
 
         public async Task<ResponseModel> DeleteJobAsync(Guid id)
         {
             var job = await _unitOfWork.JobRepository.GetAsync(id);
-            if (job == null) return new ResponseModel { Status = false, Message = "Job not found" };
+            if (job == null)
+                return new ResponseModel { Status = false, Message = "Job not found" };
 
             _unitOfWork.JobRepository.SoftDelete(job);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Job deleted successfully" };
+            var jobModel = _mapper.Map<JobModel>(job); 
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Job deleted successfully",
+                Data = jobModel
+            };
         }
         public async Task<Pagination<JobModel>> GetAllJobAsync(JobFilterModel filterModel)
         {
@@ -78,12 +91,7 @@ namespace Services.Services
             return new ResponseDataModel<JobModel> { Status = true, Data = jobModel };
         }
 
-        public Task<ResponseModel> RestoreJob(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ResponseModel> RestoreJobAsync(Guid id)
+        public async Task<ResponseModel> RestoreJob(Guid id)
         {
             var job = await _unitOfWork.JobRepository.GetAsync(id);
             if (job == null)
@@ -103,7 +111,13 @@ namespace Services.Services
             _unitOfWork.JobRepository.Update(job);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Job restored successfully" };
+            var jobModel = _mapper.Map<JobModel>(job); 
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Job restored successfully",
+                Data = jobModel
+            };
         }
 
         public async Task<ResponseModel> UpdateJobAsync(Guid id, JobUpdateModel model)
@@ -116,7 +130,13 @@ namespace Services.Services
             _unitOfWork.JobRepository.Update(job);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Job updated successfully" };
+            var jobModel = _mapper.Map<JobModel>(job); 
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Job updated successfully",
+                Data = jobModel
+            };
         }
     }
 }

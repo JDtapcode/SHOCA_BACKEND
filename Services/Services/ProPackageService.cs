@@ -26,6 +26,7 @@ namespace Services.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+       
         public async Task<ResponseModel> CreateProPackageAsync(ProPackageCreateModel model)
         {
             if (model == null || string.IsNullOrEmpty(model.Name))
@@ -44,7 +45,14 @@ namespace Services.Services
             await _unitOfWork.ProPackageRepository.AddAsync(proPackage);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "ProPackage created successfully" };
+            var proPackageModel = _mapper.Map<ProPackageModel>(proPackage); 
+            proPackageModel.Features = proPackage.Features.Select(f => f.Name).ToList();
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "ProPackage created successfully",
+                Data = proPackageModel
+            };
         }
 
         public async Task<ResponseDataModel<ProPackageModel>> GetProPackageByIdAsync(Guid id)
@@ -71,35 +79,31 @@ namespace Services.Services
         }
 
 
+     
         public async Task<ResponseModel> DeleteProPackageAsync(Guid id)
         {
             var proPackage = await _unitOfWork.ProPackageRepository.GetAsync(id);
 
             if (proPackage == null)
             {
-                return new ResponseModel
-                {
-                    Status = false,
-                    Message = "ProPackage not found"
-                };
+                return new ResponseModel { Status = false, Message = "ProPackage not found" };
             }
 
             if (proPackage.IsDeleted)
             {
-                return new ResponseModel
-                {
-                    Status = false,
-                    Message = "ProPackage is already deleted"
-                };
+                return new ResponseModel { Status = false, Message = "ProPackage is already deleted" };
             }
 
             _unitOfWork.ProPackageRepository.SoftDelete(proPackage);
             await _unitOfWork.SaveChangeAsync();
 
+            var proPackageModel = _mapper.Map<ProPackageModel>(proPackage); // Map để trả về Data
+            proPackageModel.Features = proPackage.Features.Select(f => f.Name).ToList();
             return new ResponseModel
             {
                 Status = true,
-                Message = "ProPackage deleted successfully"
+                Message = "ProPackage deleted successfully",
+                Data = proPackageModel
             };
         }
 
@@ -146,10 +150,10 @@ namespace Services.Services
 
             return new ResponseModel { Status = true, Message = "ProPackage restored successfully" };
         }
+        
         public async Task<ResponseModel> UpdateProPackageAsync(Guid id, ProPackageUpdateModel model)
         {
-            var proPackage = await _unitOfWork.ProPackageRepository
-                .GetProPackageByIdWithDetailsAsync(id); 
+            var proPackage = await _unitOfWork.ProPackageRepository.GetProPackageByIdWithDetailsAsync(id);
 
             if (proPackage == null)
             {
@@ -162,8 +166,8 @@ namespace Services.Services
 
             if (model.Features != null)
             {
-                var existingFeatureNames = proPackage.Features.Select(f => f.Name).ToHashSet(); 
-                var newFeatures = model.Features.Where(f => !existingFeatureNames.Contains(f)) 
+                var existingFeatureNames = proPackage.Features.Select(f => f.Name).ToHashSet();
+                var newFeatures = model.Features.Where(f => !existingFeatureNames.Contains(f))
                                                 .Select(f => new ProPackageFeature { Name = f })
                                                 .ToList();
 
@@ -176,12 +180,19 @@ namespace Services.Services
             _unitOfWork.ProPackageRepository.Update(proPackage);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "ProPackage updated successfully" };
+            var proPackageModel = _mapper.Map<ProPackageModel>(proPackage); 
+            proPackageModel.Features = proPackage.Features.Select(f => f.Name).ToList();
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "ProPackage updated successfully",
+                Data = proPackageModel
+            };
         }
 
 
 
-        
+
     }
 
 }

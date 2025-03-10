@@ -23,38 +23,43 @@ namespace Services.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+   
         public async Task<ResponseModel> CreateFreelancerServiceAsync(FreelancerServiceCreateModel model)
         {
             if (model == null || string.IsNullOrEmpty(model.Description))
             {
                 return new ResponseModel { Status = false, Message = "Invalid input data" };
             }
-            var freelancerService = _mapper.Map<FreelancerService>(model);
-            //var freelancerService = new FreelancerService
-            //{
-            //    Description = model.Description,
-            //    Price = model.Price,
-            //    ImageUrl = model.ImageUrl,
-            //    DeliveryTime = model.DeliveryTime,
-            //    NumConcepts = model.NumConcepts,
-            //    NumRevisions = model.NumRevisions,
-            //    UserId = model.UserId,
-            //};
+
+            var freelancerService = _mapper.Map<FreelancerService>(model); 
             await _unitOfWork.FreelancerServiceRepository.AddAsync(freelancerService);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Freelancer Service created successfully" };
+            var serviceModel = _mapper.Map<FreelancerServiceModel>(freelancerService); 
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Freelancer Service created successfully",
+                Data = serviceModel
+            };
         }
 
         public async Task<ResponseModel> DeleteFreelancerServiceAsync(Guid id)
         {
             var service = await _unitOfWork.FreelancerServiceRepository.GetAsync(id);
-            if (service == null) return new ResponseModel { Status = false, Message = "Freelancer Service not found" };
+            if (service == null)
+                return new ResponseModel { Status = false, Message = "Freelancer Service not found" };
 
             _unitOfWork.FreelancerServiceRepository.SoftDelete(service);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Freelancer Service deleted successfully" };
+            var serviceModel = _mapper.Map<FreelancerServiceModel>(service); 
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Freelancer Service deleted successfully",
+                Data = serviceModel
+            };
         }
 
         public async Task<Pagination<FreelancerServiceModel>> GetAllFreelancerServicesAsync(FreelancerServiceFilterModel filterModel)
@@ -139,29 +144,7 @@ namespace Services.Services
             };
         }
 
-        public async Task<ResponseModel> RestoreFreelancerServiceAsync(Guid id)
-        {
-            var service = await _unitOfWork.FreelancerServiceRepository.GetAsync(id);
-            if (service == null)
-            {
-                return new ResponseModel { Status = false, Message = "Freelancer Service not found" };
-            }
-
-            if (!service.IsDeleted)
-            {
-                return new ResponseModel { Status = false, Message = "Freelancer Service is not deleted" };
-            }
-
-            service.IsDeleted = false;
-            service.DeletionDate = null;
-            service.DeletedBy = null;
-
-            _unitOfWork.FreelancerServiceRepository.Update(service);
-            await _unitOfWork.SaveChangeAsync();
-
-            return new ResponseModel { Status = true, Message = "Freelancer Service restored successfully" };
-        }
-
+       
         public async Task<ResponseModel> UpdateFreelancerServiceAsync(Guid id, FreelancerServiceUpdateModel model)
         {
             var service = await _unitOfWork.FreelancerServiceRepository.GetAsync(id);
@@ -172,8 +155,13 @@ namespace Services.Services
             _unitOfWork.FreelancerServiceRepository.Update(service);
             await _unitOfWork.SaveChangeAsync();
 
-            return new ResponseModel { Status = true, Message = "Freelancer Service updated successfully" };
+            var serviceModel = _mapper.Map<FreelancerServiceModel>(service); 
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Freelancer Service updated successfully",
+                Data = serviceModel
+            };
         }
-
     }
 }

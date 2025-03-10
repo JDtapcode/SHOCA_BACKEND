@@ -11,6 +11,7 @@ namespace Services.Models.ResponseModels
         public bool Status { get; set; } = false;
         public string Message { get; set; } = "";
 
+        public object? Data { get; set; }
         // Optional
         public bool? EmailVerificationRequired { get; set; }
         public bool? IsBlocked { get; set; }

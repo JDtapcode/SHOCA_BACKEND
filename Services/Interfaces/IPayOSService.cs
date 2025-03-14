@@ -10,6 +10,6 @@ namespace Services.Interfaces
     public interface IPayOSService
     {
         Task<string> CreatePaymentUrlAsync(Guid packageId, Guid accountId);
-        Task<PaymentResponseModel> HandlePaymentReturnAsync(string transactionId);
+        Task<PaymentResponseModel> HandlePaymentReturnAsync(string orderCode, string status);
     }
 }

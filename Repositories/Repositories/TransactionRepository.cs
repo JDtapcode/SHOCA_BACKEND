@@ -1,4 +1,5 @@
-﻿using Repositories.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Repositories.Entities;
 using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,12 @@ namespace Repositories.Repositories
     {
         public TransactionRepository(AppDbContext dbContext, IClaimsService claimsService) : base(dbContext, claimsService)
         {
+        }
+
+        public async Task<Transaction> GetByOrderCodeAsync(string orderCode)
+        {
+            return await _dbSet
+                .FirstOrDefaultAsync(t => t.OrderCode == orderCode);
         }
     }
 }

@@ -9,5 +9,6 @@ namespace Repositories.Interfaces
 {
     public interface ITransactionRepository : IGenericRepository<Transaction>
     {
+        Task<Transaction> GetByOrderCodeAsync(string orderCode);
     }
 }

@@ -1,30 +1,35 @@
 [
   {
-    "ContainingType": "SHOCA.API.Controllers.PackagePaymentController",
-    "Method": "CreatePaymentUrl",
-    "RelativePath": "api/payments/create-payment-url",
+    "ContainingType": "SHOCA.API.Controllers.PaymentController",
+    "Method": "CreatePayment",
+    "RelativePath": "api/payment/create",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "request",
-        "Type": "Services.Models.PayOSModels.PaymentRequestModel",
+        "Type": "Services.Models.PayOSModels.CreatePaymentRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SHOCA.API.Controllers.PackagePaymentController",
-    "Method": "HandlePaymentReturn",
-    "RelativePath": "api/payments/handle-payment-return",
-    "HttpMethod": "POST",
+    "ContainingType": "SHOCA.API.Controllers.PaymentController",
+    "Method": "PaymentReturn",
+    "RelativePath": "api/payment/return",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "transactionId",
+        "Name": "orderCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
         "Type": "System.String",
         "IsRequired": false
       }

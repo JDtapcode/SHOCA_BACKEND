@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repositories.Common;
+using Repositories.Entities;
 using Repositories.Interfaces;
 using Repositories.Models.AccountModels;
 using Repositories.Models.QueryModels;
@@ -98,6 +99,11 @@ namespace Repositories.Repositories
                 TotalCount = totalCount,
                 Data = await query.ToListAsync(),
             };
+        }
+
+        public async Task<Account> GetAsync(Guid id)
+        {
+            return await _dbContext.Accounts.FindAsync(id);
         }
     }
 }

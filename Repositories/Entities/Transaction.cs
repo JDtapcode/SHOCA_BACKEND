@@ -10,6 +10,7 @@ namespace Repositories.Entities
     public class Transaction:BaseEntity
     {
         public decimal MoneyAmount { get; set; }
+        public string OrderCode { get; set; }
         public Guid? ArtworkId { get; set; }
         public Guid? UserId { get; set; }
         public DateTime TransactionDate { get; set; }

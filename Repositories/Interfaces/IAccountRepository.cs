@@ -1,4 +1,5 @@
-﻿using Repositories.Models.AccountModels;
+﻿using Repositories.Entities;
+using Repositories.Models.AccountModels;
 using Repositories.Models.QueryModels;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,6 @@ namespace Repositories.Interfaces
             int? pageIndex = null,
             int? pageSize = null
         );
+        Task<Account> GetAsync(Guid id);
     }
 }

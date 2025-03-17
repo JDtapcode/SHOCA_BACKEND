@@ -171,3 +171,5 @@ C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\refint\SHOCA.API.d
 C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\SHOCA.API.pdb
 C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\SHOCA.API.genruntimeconfig.cache
 C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\ref\SHOCA.API.dll
+C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\bin\Debug\net8.0\payos-lib-backend-dotnet.dll
+C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\SHOCA.API.MvcApplicationPartsAssemblyInfo.cs

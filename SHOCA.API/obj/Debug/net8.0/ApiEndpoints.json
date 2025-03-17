@@ -32,6 +32,16 @@
         "Name": "status",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "paymentLinkId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "code",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

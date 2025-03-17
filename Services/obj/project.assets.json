@@ -872,6 +872,22 @@
           }
         }
       },
+      "payOS/1.0.9": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "compile": {
+          "lib/net6.0/payos-lib-backend-dotnet.dll": {
+            "related": ".runtimeconfig.json"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/payos-lib-backend-dotnet.dll": {
+            "related": ".runtimeconfig.json"
+          }
+        }
+      },
       "System.Configuration.ConfigurationManager/6.0.1": {
         "type": "package",
         "dependencies": {
@@ -2632,6 +2648,20 @@
         "packageIcon.png"
       ]
     },
+    "payOS/1.0.9": {
+      "sha512": "LPfIWXg0Oo8mPk8l3otrqtH4iQcjaG+ughDp2DS3gS52s7bs8eEtU+uXflu32GPDCFKksfFyAAOLUoPDva4/Gw==",
+      "type": "package",
+      "path": "payos/1.0.9",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net6.0/payos-lib-backend-dotnet.dll",
+        "lib/net6.0/payos-lib-backend-dotnet.runtimeconfig.json",
+        "payos.1.0.9.nupkg.sha512",
+        "payos.nuspec"
+      ]
+    },
     "System.Configuration.ConfigurationManager/6.0.1": {
       "sha512": "jXw9MlUu/kRfEU0WyTptAVueupqIeE3/rl0EZDMlf8pcvJnitQ8HeVEp69rZdaStXwTV72boi/Bhw8lOeO+U2w==",
       "type": "package",
@@ -3592,7 +3622,8 @@
       "Microsoft.AspNetCore.Http.Features >= 5.0.17",
       "Microsoft.Extensions.Hosting.Abstractions >= 8.0.1",
       "Newtonsoft.Json >= 13.0.3",
-      "Repositories >= 1.0.0"
+      "Repositories >= 1.0.0",
+      "payOS >= 1.0.9"
     ]
   },
   "packageFolders": {
@@ -3659,6 +3690,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+          },
+          "payOS": {
+            "target": "Package",
+            "version": "[1.0.9, )"
           }
         },
         "imports": [

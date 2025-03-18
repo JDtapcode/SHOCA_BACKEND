@@ -135,6 +135,15 @@ namespace Services.Common
             ArtworkImageId = id
         }).ToList()
     ));
+            CreateMap<PortfolioUpdateModel, Portfolio>()
+    .ForMember(dest => dest.PortfolioImages, opt => opt.MapFrom(src =>
+        src.ArtworkImageIds != null
+            ? src.ArtworkImageIds.Select(id => new PortfolioImage
+            {
+                ArtworkImageId = id
+            }).ToList()
+            : new List<PortfolioImage>()
+    ));
 
 
 

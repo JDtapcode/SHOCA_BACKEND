@@ -82,45 +82,106 @@ namespace Services.Services
             };
         }
 
-      
+
+        //public async Task<ResponseModel> UpdatePortfolioAsync(Guid id, PortfolioUpdateModel model)
+        //{
+        //    var portfolio = await _unitOfWork.PortfolioRepository.GetPortfolioByIdWithDetailsAsync(id);
+        //    if (portfolio == null)
+        //    {
+        //        return new ResponseModel { Status = false, Message = "Portfolio not found" };
+        //    }
+
+        //    _mapper.Map(model, portfolio);
+
+        //    if (model.Images != null && model.Images.Any())
+        //    {
+        //        var artworkImageIds = model.Images.Select(img => img.ArtworkImageId).ToList();
+        //        var existingArtworkImages = (await _unitOfWork.ArtworkImageRepository
+        //            .GetAllAsync(a => artworkImageIds.Contains(a.Id), pageIndex: 1, pageSize: int.MaxValue))
+        //            .Data;
+
+        //        if (existingArtworkImages?.Count != artworkImageIds.Count)
+        //        {
+        //            return new ResponseModel { Status = false, Message = "One or more ArtworkImageIds are invalid" };
+        //        }
+
+        //        portfolio.PortfolioImages = model.Images.Select(img => new PortfolioImage
+        //        {
+        //            PortfolioId = portfolio.Id,
+        //            ArtworkImageId = img.ArtworkImageId
+        //        }).ToList();
+        //    }
+
+        //    _unitOfWork.PortfolioRepository.Update(portfolio);
+        //    await _unitOfWork.SaveChangeAsync();
+
+        //    var portfolioModel = _mapper.Map<PortfolioModel>(portfolio); 
+        //    portfolioModel.ImageUrls = portfolio.PortfolioImages.Select(pi => pi.ArtworkImage.FileUrl).ToList();
+        //    return new ResponseModel
+        //    {
+        //        Status = true,
+        //        Message = "Portfolio updated successfully",
+        //        Data = portfolioModel
+        //    };
+        //}
         public async Task<ResponseModel> UpdatePortfolioAsync(Guid id, PortfolioUpdateModel model)
         {
             var portfolio = await _unitOfWork.PortfolioRepository.GetPortfolioByIdWithDetailsAsync(id);
             if (portfolio == null)
             {
-                return new ResponseModel { Status = false, Message = "Portfolio not found" };
+                return new ResponseModel { Status = false, Message = "Không tìm thấy portfolio" };
             }
 
             _mapper.Map(model, portfolio);
 
-            if (model.Images != null && model.Images.Any())
+            if (model.ArtworkImageIds != null && model.ArtworkImageIds.Any())
             {
-                var artworkImageIds = model.Images.Select(img => img.ArtworkImageId).ToList();
+                var artworkImageIds = model.ArtworkImageIds.ToList();
+
                 var existingArtworkImages = (await _unitOfWork.ArtworkImageRepository
                     .GetAllAsync(a => artworkImageIds.Contains(a.Id), pageIndex: 1, pageSize: int.MaxValue))
                     .Data;
 
                 if (existingArtworkImages?.Count != artworkImageIds.Count)
                 {
-                    return new ResponseModel { Status = false, Message = "One or more ArtworkImageIds are invalid" };
+                    return new ResponseModel { Status = false, Message = "Một hoặc nhiều ArtworkImageId không hợp lệ" };
                 }
 
-                portfolio.PortfolioImages = model.Images.Select(img => new PortfolioImage
+                var existingPortfolioImageIds = portfolio.PortfolioImages
+                    .Select(pi => pi.ArtworkImageId)
+                    .ToHashSet();
+
+                var imagesToRemove = portfolio.PortfolioImages
+                    .Where(pi => !artworkImageIds.Contains(pi.ArtworkImageId))
+                    .ToList();
+                foreach (var image in imagesToRemove)
                 {
-                    PortfolioId = portfolio.Id,
-                    ArtworkImageId = img.ArtworkImageId
-                }).ToList();
+                    portfolio.PortfolioImages.Remove(image);
+                }
+
+                var newPortfolioImages = artworkImageIds
+                    .Where(id => !existingPortfolioImageIds.Contains(id))
+                    .Select(id => new PortfolioImage
+                    {
+                        PortfolioId = portfolio.Id,
+                        ArtworkImageId = id
+                    }).ToList();
+
+                foreach (var newImage in newPortfolioImages)
+                {
+                    portfolio.PortfolioImages.Add(newImage);
+                }
             }
 
             _unitOfWork.PortfolioRepository.Update(portfolio);
             await _unitOfWork.SaveChangeAsync();
 
-            var portfolioModel = _mapper.Map<PortfolioModel>(portfolio); 
+            var portfolioModel = _mapper.Map<PortfolioModel>(portfolio);
             portfolioModel.ImageUrls = portfolio.PortfolioImages.Select(pi => pi.ArtworkImage.FileUrl).ToList();
             return new ResponseModel
             {
                 Status = true,
-                Message = "Portfolio updated successfully",
+                Message = "Cập nhật portfolio thành công",
                 Data = portfolioModel
             };
         }

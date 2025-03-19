@@ -1,5 +1,6 @@
 ﻿using Repositories.Entities;
 using Repositories.Enums;
+using Repositories.Models.AccountProPackageModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,6 @@ namespace Repositories.Models.AccountModels
         public string? PersonalWebsiteUrl { get; set; }
         public string? PortfolioUrl { get; set; }
         public string? Role { get; set; }
+        public List<AccountProPackageInfo> PurchasedPackages { get; set; } = new List<AccountProPackageInfo>();
     }
 }

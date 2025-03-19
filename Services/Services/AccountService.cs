@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Repositories.Entities;
 using Repositories.Interfaces;
 using Repositories.Models.AccountModels;
+using Repositories.Models.AccountProPackageModels;
 using Repositories.Utils;
 using Services.Common;
 using Services.Interfaces;
@@ -560,12 +561,9 @@ namespace Services.Services
                 Message = "Mật khẩu phải chứa chữ hoa, số và ký tự đặc biệt."
             };
         }
-
-
         public async Task<ResponseDataModel<AccountModel>> GetAccount(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
-
             if (user == null)
             {
                 return new ResponseDataModel<AccountModel>()
@@ -575,9 +573,22 @@ namespace Services.Services
                 };
             }
 
+            var accountProPackages = await _unitOfWork.AccountProPackageRepository
+                .GetAllAsync(app => app.AccountId == id && !app.IsDeleted);
+
             var userModel = _mapper.Map<AccountModel>(user);
+
+            userModel.PurchasedPackages = accountProPackages.Data.Select(app => new AccountProPackageInfo
+            {
+                Id = app.Id,
+                ProPackageId = app.ProPackageId,
+                StartDate = app.StartDate,
+                EndDate = app.EndDate,
+                PackageStatus = app.PackageStatus.ToString()
+            }).ToList();
+
             var role = await _userManager.GetRolesAsync(user);
-            userModel.Role = Enum.Parse(typeof(Repositories.Enums.Role), role[0]).ToString()!;
+            userModel.Role = Enum.Parse(typeof(Repositories.Enums.Role), role[0]).ToString();
 
             return new ResponseDataModel<AccountModel>()
             {
@@ -586,6 +597,32 @@ namespace Services.Services
                 Data = userModel
             };
         }
+
+
+        //public async Task<ResponseDataModel<AccountModel>> GetAccount(Guid id)
+        //{
+        //    var user = await _userManager.FindByIdAsync(id.ToString());
+
+        //    if (user == null)
+        //    {
+        //        return new ResponseDataModel<AccountModel>()
+        //        {
+        //            Status = false,
+        //            Message = "User not found"
+        //        };
+        //    }
+
+        //    var userModel = _mapper.Map<AccountModel>(user);
+        //    var role = await _userManager.GetRolesAsync(user);
+        //    userModel.Role = Enum.Parse(typeof(Repositories.Enums.Role), role[0]).ToString()!;
+
+        //    return new ResponseDataModel<AccountModel>()
+        //    {
+        //        Status = true,
+        //        Message = "Get account successfully",
+        //        Data = userModel
+        //    };
+        //}
 
         public async Task<Pagination<AccountModel>> GetAllAccounts(AccountFilterModel accountFilterModel)
         {

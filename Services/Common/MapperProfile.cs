@@ -33,6 +33,8 @@ namespace Services.Common
         {
             //Account
             CreateMap<AccountRegisterModel, Account>();
+            CreateMap<Account, AccountModel>()
+            .ForMember(dest => dest.PurchasedPackages, opt => opt.Ignore());
             CreateMap<AccountModel, Account>().ReverseMap();
 
             //Freelancer

@@ -69,19 +69,20 @@ namespace Services.Common
             CreateMap<Category, CategoryCreateModel>().ReverseMap();
             CreateMap<Category, CategoryUpdateModel>().ReverseMap();
             //Artwork
-            //CreateMap<Artwork, ArtworkModel>()
+
+            //        CreateMap<Artwork, ArtworkModel>()
             //.ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
-            //    src.ArtworkCategories.Select(ac => ac.Category.Name).ToList())) 
-            //.ForMember(dest => dest.Images, opt => opt.MapFrom(src =>
-            //    src.Images.Select(img => img.FileUrl).ToList())) 
-            //.ReverseMap();
+            //    src.ArtworkCategories != null
+            //    ? src.ArtworkCategories.Select(ac => ac.Category != null ? ac.Category.Name : "Unknown").ToList()
+            //    : new List<string>()
+            //))
             CreateMap<Artwork, ArtworkModel>()
-    .ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
-        src.ArtworkCategories != null
-        ? src.ArtworkCategories.Select(ac => ac.Category != null ? ac.Category.Name : "Unknown").ToList()
-        : new List<string>()
-    ))
-    .ForMember(dest => dest.Images, opt => opt.MapFrom(src =>
+            .ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
+                src.ArtworkCategories != null
+                ? src.ArtworkCategories.Select(ac => ac.CategoryId).ToList()
+                : new List<Guid>() 
+            ))
+            .ForMember(dest => dest.Images, opt => opt.MapFrom(src =>
         src.Images != null
         ? src.Images.Select(img => img.FileUrl).ToList()
         : new List<string>() // ✅ Tránh null

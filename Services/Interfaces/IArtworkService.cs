@@ -20,5 +20,6 @@ namespace Services.Interfaces
         Task<ResponseDataModel<ArtworkModel>> GetArtworkByIdAsync(Guid id);
         Task<ResponseModel> RestoreArtwork(Guid id);
         Task<ResponseList<List<ArtworkImageModel>>> GetArtworkImagesByCreatorAsync(Guid creatorId);
+        Task<ResponseModel> UpdateArtworkStatusAsync(Guid id, ArtworkStatusUpdateModel model);
     }
 }

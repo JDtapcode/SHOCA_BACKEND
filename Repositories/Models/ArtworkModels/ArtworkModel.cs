@@ -1,9 +1,13 @@
-﻿using Repositories.Entities;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Newtonsoft.Json.Converters;
+using Repositories.Entities;
+using Repositories.Enums;
 using Repositories.Models.CategoryModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Repositories.Models.ArtworkModels
@@ -19,5 +23,7 @@ namespace Repositories.Models.ArtworkModels
         public List<string> Categories { get; set; } = new List<string>();
         //public List<CategoryModel> Categories { get; set; } = new();
         public List<string> Images { get; set; } = new List<string>();
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ArtworkStatus Status { get; set; }
     }
 }

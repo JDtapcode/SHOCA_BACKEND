@@ -173,3 +173,6 @@ C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\SHOCA.API.genrunti
 C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\ref\SHOCA.API.dll
 C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\bin\Debug\net8.0\payos-lib-backend-dotnet.dll
 C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\obj\Debug\net8.0\SHOCA.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Hp\source\repos\SHOCA.API\SHOCA.API\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll

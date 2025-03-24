@@ -77,6 +77,7 @@ namespace Services.Common
             //    : new List<string>()
             //))
             CreateMap<Artwork, ArtworkModel>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
             .ForMember(dest => dest.Categories, opt => opt.MapFrom(src =>
                 src.ArtworkCategories != null
                 ? src.ArtworkCategories.Select(ac => ac.CategoryId).ToList()

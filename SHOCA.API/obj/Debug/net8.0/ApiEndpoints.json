@@ -335,6 +335,27 @@
   },
   {
     "ContainingType": "SHOCA.API.Controllers.ArtworkController",
+    "Method": "UpdateArtworkStatus",
+    "RelativePath": "api/v1/artworks/{id}/status",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "model",
+        "Type": "Services.Models.ArtworkModels.ArtworkStatusUpdateModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SHOCA.API.Controllers.ArtworkController",
     "Method": "GetArtworkImagesByCreator",
     "RelativePath": "api/v1/artworks/images-by-creator/{creatorId}",
     "HttpMethod": "GET",

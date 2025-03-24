@@ -245,6 +245,34 @@ namespace Services.Services
                 Data = imageModels
             };
         }
+
+        public async Task<ResponseModel> UpdateArtworkStatusAsync(Guid id, ArtworkStatusUpdateModel model)
+        {
+            var artwork = await _unitOfWork.ArtworkRepository
+                .GetAsync(id, includes: new[] { "ArtworkCategories", "ArtworkCategories.Category", "Images" });
+
+            if (artwork == null)
+                return new ResponseModel { Status = false, Message = "Artwork not found" };
+
+            if (artwork.IsDeleted)
+                return new ResponseModel { Status = false, Message = "Cannot update status of deleted artwork" };
+
+            artwork.Status = model.Status;
+            _unitOfWork.ArtworkRepository.Update(artwork);
+            await _unitOfWork.SaveChangeAsync();
+
+            var updatedArtwork = await _unitOfWork.ArtworkRepository
+                .GetAsync(id, includes: new[] { "ArtworkCategories.Category", "Images" });
+
+            var artworkModel = _mapper.Map<ArtworkModel>(updatedArtwork);
+
+            return new ResponseModel
+            {
+                Status = true,
+                Message = "Artwork status updated successfully",
+                Data = artworkModel
+            };
+        }
     }
 
 

@@ -115,5 +115,22 @@ namespace SHOCA.API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateArtworkStatus(Guid id, [FromBody] ArtworkStatusUpdateModel model)
+        {
+            try
+            {
+                var result = await _service.UpdateArtworkStatusAsync(id, model);
+                if (result.Status)
+                {
+                    return Ok(result);
+                }
+                return BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

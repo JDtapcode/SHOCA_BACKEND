@@ -1,12 +1,54 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1E52E9C6-420A-4A7D-9C8A-C248D26D043B}|Repositories\\Repositories.csproj|c:\\users\\hp\\source\\repos\\shoca.api\\repositories\\entities\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1E52E9C6-420A-4A7D-9C8A-C248D26D043B}|Repositories\\Repositories.csproj|solutionrelative:repositories\\entities\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1E52E9C6-420A-4A7D-9C8A-C248D26D043B}|Repositories\\Repositories.csproj|c:\\users\\hp\\source\\repos\\shoca.api\\repositories\\common\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1E52E9C6-420A-4A7D-9C8A-C248D26D043B}|Repositories\\Repositories.csproj|solutionrelative:repositories\\common\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Account.cs",
+              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Repositories\\Entities\\Account.cs",
+              "RelativeDocumentMoniker": "Repositories\\Entities\\Account.cs",
+              "ToolTip": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Repositories\\Entities\\Account.cs",
+              "RelativeToolTip": "Repositories\\Entities\\Account.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-26T15:57:27.163Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Repositories\\Common\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "Repositories\\Common\\UnitOfWork.cs",
+              "ToolTip": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Repositories\\Common\\UnitOfWork.cs",
+              "RelativeToolTip": "Repositories\\Common\\UnitOfWork.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-26T15:57:13.181Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

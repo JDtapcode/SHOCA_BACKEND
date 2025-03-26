@@ -28,7 +28,7 @@
               "RelativeDocumentMoniker": "Repositories\\Entities\\Account.cs",
               "ToolTip": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Repositories\\Entities\\Account.cs",
               "RelativeToolTip": "Repositories\\Entities\\Account.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-26T15:57:27.163Z",
               "EditorCaption": ""
@@ -43,8 +43,7 @@
               "RelativeToolTip": "Repositories\\Common\\UnitOfWork.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-26T15:57:13.181Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-26T15:57:13.181Z"
             }
           ]
         }

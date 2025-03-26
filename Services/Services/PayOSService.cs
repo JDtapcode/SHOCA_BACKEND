@@ -30,14 +30,14 @@ namespace Services.Services
             _clientId = configuration["PayOS:ClientId"] ?? throw new ArgumentNullException("PayOS:ClientId is not configured");
             _apiKey = configuration["PayOS:ApiKey"] ?? throw new ArgumentNullException("PayOS:ApiKey is not configured");
             _checksumKey = configuration["PayOS:ChecksumKey"] ?? throw new ArgumentNullException("PayOS:ChecksumKey is not configured");
-            _returnUrl = configuration["PayOS:ReturnUrl"] ?? "http://localhost:5000/api/payment/return"; 
+            _returnUrl = configuration["PayOS:ReturnUrl"] ?? "http://localhost:5000/api/payment/return";
+
         }
 
         public async Task<string> CreatePaymentUrlAsync(Guid packageId, Guid accountId)
         {
             try
             {
-                // Kiểm tra các dependency
                 if (_unitOfWork.ProPackageRepository == null)
                     throw new Exception("ProPackageRepository không được khởi tạo");
 
@@ -94,17 +94,29 @@ namespace Services.Services
                     Console.WriteLine($"Description: {description}");
                 }
 
+                //var paymentData = new Net.payOS.Types.PaymentData(
+                //    orderCode: orderCode,
+                //    amount: (int)Math.Round(package.Price, 0),
+                //    description: description,
+                //    items: items,
+                //    cancelUrl: "http://localhost:5000/api/payment/cancel",
+                //    returnUrl: _returnUrl,
+                //    buyerName: user.FirstName + " " + (user.LastName ?? ""),
+                //    buyerEmail: user.Email ?? "email@gmail.com",
+                //    buyerPhone: user.PhoneNumber ?? "0123456789"
+                //);
                 var paymentData = new Net.payOS.Types.PaymentData(
-                    orderCode: orderCode,
-                    amount: (int)Math.Round(package.Price, 0),
-                    description: description,
-                    items: items,
-                    cancelUrl: "http://localhost:5000/api/payment/cancel",
-                    returnUrl: _returnUrl,
-                    buyerName: user.FirstName + " " + (user.LastName ?? ""),
-                    buyerEmail: user.Email ?? "email@gmail.com",
-                    buyerPhone: user.PhoneNumber ?? "0123456789"
-                );
+    orderCode: orderCode,
+    amount: (int)Math.Round(package.Price, 0),
+    description: description,
+    items: items,
+    cancelUrl: "http://localhost:5173/payment-fail",  
+    returnUrl: "http://localhost:5173/payment-success",  
+    buyerName: user.FirstName + " " + (user.LastName ?? ""),
+    buyerEmail: user.Email ?? "email@gmail.com",
+    buyerPhone: user.PhoneNumber ?? "0123456789"
+);
+
 
                 var payOS = new PayOS(_clientId, _apiKey, _checksumKey);
 

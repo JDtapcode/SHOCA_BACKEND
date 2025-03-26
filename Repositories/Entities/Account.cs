@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 //test
+
 namespace Repositories.Entities
 {
     public class Account:IdentityUser<Guid>
@@ -25,7 +26,6 @@ namespace Repositories.Entities
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
 
-        // Email verification
         public string? VerificationCode { get; set; }
         public DateTime? VerificationCodeExpiryTime { get; set; }
         // Base Entity

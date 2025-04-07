@@ -1,4 +1,6 @@
 ﻿using Repositories.Enums;
+using Repositories.Models.AccountModels;
+using Repositories.Models.ArtworkModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +18,8 @@ namespace Repositories.Models.ReportModels
         public Guid ArtworkId { get; set; }
         public ReportStatus Status { get; set; }
         public DateTime CreationDate { get; set; }
+        public ArtworkModel Artwork { get; set; }     // <-- Thêm dòng này
+        public AccountModel Reporter { get; set; }
+
     }
 }

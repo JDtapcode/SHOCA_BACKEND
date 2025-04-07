@@ -26,8 +26,8 @@ namespace Repositories.Repositories
 
             return await GetAllAsync(
                 filter: filter,
-                pageIndex: 1, 
-                pageSize: int.MaxValue, 
+                pageIndex: 1,
+                pageSize: int.MaxValue,
                 includes: new Expression<Func<Report, object>>[]
                 {
                     r => r.Reporter,
@@ -41,8 +41,8 @@ namespace Repositories.Repositories
 
             return await GetAllAsync(
                 filter: filter,
-                pageIndex: 1, 
-                pageSize: int.MaxValue, 
+                pageIndex: 1,
+                pageSize: int.MaxValue,
                 includes: new Expression<Func<Report, object>>[]
                 {
                     r => r.Reporter,

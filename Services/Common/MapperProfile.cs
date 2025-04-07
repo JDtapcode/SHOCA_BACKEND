@@ -152,9 +152,19 @@ namespace Services.Common
     ));
 
             //report
+            //CreateMap<ReportCreateModel, Report>();
+            //CreateMap<Report, ReportModel>()
+            //    .ForMember(dest => dest.ArtworkId, opt => opt.MapFrom(src => src.ArtworkId));
             CreateMap<ReportCreateModel, Report>();
             CreateMap<Report, ReportModel>()
-                .ForMember(dest => dest.ArtworkId, opt => opt.MapFrom(src => src.ArtworkId));
+                .ForMember(dest => dest.Artwork, opt => opt.MapFrom(src => src.Artwork)) // map artwork
+                .ForMember(dest => dest.Reporter, opt => opt.MapFrom(src => src.Reporter)); // map reporter nếu cần
+
+            // Artwork mapping
+            CreateMap<Artwork, ArtworkModel>();
+
+            // Account mapping (nếu cần)
+            CreateMap<Account, AccountModel>();
 
         }
     }

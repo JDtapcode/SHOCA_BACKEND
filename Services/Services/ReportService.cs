@@ -30,7 +30,7 @@ namespace Services.Services
         {
             if (model == null || string.IsNullOrEmpty(model.Description))
             {
-                return new ResponseModel { Status = false, Message = "Invalid input data" };
+                return new ResponseModel { Status = false, Message = "Description can't be null" };
             }
 
             var reporter = await _unitOfWork.AccountRepository.GetAsync(model.ReporterId);

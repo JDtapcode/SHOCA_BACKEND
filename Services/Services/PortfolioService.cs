@@ -28,7 +28,7 @@ namespace Services.Services
         {
             if (model == null || string.IsNullOrEmpty(model.Title))
             {
-                return new ResponseModel { Status = false, Message = "Invalid input data" };
+                return new ResponseModel { Status = false, Message = "Title and image can't be null" };
             }
 
             var portfolio = _mapper.Map<Portfolio>(model);

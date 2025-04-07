@@ -32,7 +32,7 @@ namespace Services.Services
         {
             if (model == null || string.IsNullOrEmpty(model.Title))
             {
-                return new ResponseModel { Status = false, Message = "Invalid input data" };
+                return new ResponseModel { Status = false, Message = "Artwork title and price can't be null" };
             }
 
             var artwork = _mapper.Map<Artwork>(model);

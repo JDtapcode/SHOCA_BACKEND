@@ -28,7 +28,7 @@ namespace Services.Services
         {
             if (model == null || string.IsNullOrEmpty(model.Description))
             {
-                return new ResponseModel { Status = false, Message = "Invalid input data" };
+                return new ResponseModel { Status = false, Message = "Service name,price,NumConcepts and NumRevisions can't be null" };
             }
 
             var freelancerService = _mapper.Map<FreelancerService>(model); 

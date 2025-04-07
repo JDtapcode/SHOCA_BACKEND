@@ -3,24 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1E52E9C6-420A-4A7D-9C8A-C248D26D043B}|Repositories\\Repositories.csproj|c:\\users\\hp\\source\\repos\\shoca.api\\repositories\\enums\\reportstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1E52E9C6-420A-4A7D-9C8A-C248D26D043B}|Repositories\\Repositories.csproj|solutionrelative:repositories\\enums\\reportstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B9284AD5-F023-4B08-853D-0CD46B970BE4}|SHOCA.API\\SHOCA.API.csproj|c:\\users\\hp\\source\\repos\\shoca.api\\shoca.api\\controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B9284AD5-F023-4B08-853D-0CD46B970BE4}|SHOCA.API\\SHOCA.API.csproj|solutionrelative:shoca.api\\controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F18A1CBA-4FCF-4756-BAA1-059C3C75B67F}|Services\\Services.csproj|c:\\users\\hp\\source\\repos\\shoca.api\\services\\services\\reportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F18A1CBA-4FCF-4756-BAA1-059C3C75B67F}|Services\\Services.csproj|solutionrelative:services\\services\\reportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F18A1CBA-4FCF-4756-BAA1-059C3C75B67F}|Services\\Services.csproj|c:\\users\\hp\\source\\repos\\shoca.api\\services\\interfaces\\ireportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F18A1CBA-4FCF-4756-BAA1-059C3C75B67F}|Services\\Services.csproj|solutionrelative:services\\interfaces\\ireportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F18A1CBA-4FCF-4756-BAA1-059C3C75B67F}|Services\\Services.csproj|c:\\users\\hp\\source\\repos\\shoca.api\\services\\common\\mapperprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F18A1CBA-4FCF-4756-BAA1-059C3C75B67F}|Services\\Services.csproj|solutionrelative:services\\common\\mapperprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B9284AD5-F023-4B08-853D-0CD46B970BE4}|SHOCA.API\\SHOCA.API.csproj|c:\\users\\hp\\source\\repos\\shoca.api\\shoca.api\\controllers\\ratingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9284AD5-F023-4B08-853D-0CD46B970BE4}|SHOCA.API\\SHOCA.API.csproj|solutionrelative:shoca.api\\controllers\\ratingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,67 +26,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ReportStatus.cs",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Repositories\\Enums\\ReportStatus.cs",
-              "RelativeDocumentMoniker": "Repositories\\Enums\\ReportStatus.cs",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Repositories\\Enums\\ReportStatus.cs",
-              "RelativeToolTip": "Repositories\\Enums\\ReportStatus.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T15:18:00.705Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MapperProfile.cs",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Services\\Common\\MapperProfile.cs",
-              "RelativeDocumentMoniker": "Services\\Common\\MapperProfile.cs",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Services\\Common\\MapperProfile.cs",
-              "RelativeToolTip": "Services\\Common\\MapperProfile.cs",
-              "ViewState": "AgIAAIgAAAAAAAAAAAAQwJgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T14:47:19.344Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IReportService.cs",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Services\\Interfaces\\IReportService.cs",
-              "RelativeDocumentMoniker": "Services\\Interfaces\\IReportService.cs",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Services\\Interfaces\\IReportService.cs",
-              "RelativeToolTip": "Services\\Interfaces\\IReportService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T14:41:19.561Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ReportService.cs",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Services\\Services\\ReportService.cs",
-              "RelativeDocumentMoniker": "Services\\Services\\ReportService.cs",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\Services\\Services\\ReportService.cs",
-              "RelativeToolTip": "Services\\Services\\ReportService.cs",
-              "ViewState": "AgIAAHYAAAAAAAAAAAAQwHQAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T14:40:55.012Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "RatingsController.cs",
+              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\SHOCA.API\\Controllers\\RatingsController.cs",
+              "RelativeDocumentMoniker": "SHOCA.API\\Controllers\\RatingsController.cs",
+              "ToolTip": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\SHOCA.API\\Controllers\\RatingsController.cs",
+              "RelativeToolTip": "SHOCA.API\\Controllers\\RatingsController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAxwCAAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T14:12:37.713Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "ReportController.cs",
               "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\SHOCA.API\\Controllers\\ReportController.cs",
               "RelativeDocumentMoniker": "SHOCA.API\\Controllers\\ReportController.cs",
               "ToolTip": "C:\\Users\\Hp\\source\\repos\\SHOCA.API\\SHOCA.API\\Controllers\\ReportController.cs",
               "RelativeToolTip": "SHOCA.API\\Controllers\\ReportController.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAuwC0AAABfAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T14:33:29.634Z",
+              "WhenOpened": "2025-04-07T14:12:20.739Z",
               "EditorCaption": ""
             }
           ]

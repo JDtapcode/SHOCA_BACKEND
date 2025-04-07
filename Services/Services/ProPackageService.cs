@@ -31,7 +31,7 @@ namespace Services.Services
         {
             if (model == null || string.IsNullOrEmpty(model.Name))
             {
-                return new ResponseModel { Status = false, Message = "Invalid input data" };
+                return new ResponseModel { Status = false, Message = "Name and price can't be null" };
             }
 
             var proPackage = new ProPackage

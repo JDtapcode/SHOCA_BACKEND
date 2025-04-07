@@ -1,0 +1,15 @@
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\bin\Release\net8.0\win-x64\Repositories.deps.json
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\bin\Release\net8.0\win-x64\Repositories.runtimeconfig.json
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\bin\Release\net8.0\win-x64\Repositories.dll
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\bin\Release\net8.0\win-x64\Repositories.pdb
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\obj\Release\net8.0\win-x64\Repositories.csproj.AssemblyReference.cache
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\obj\Release\net8.0\win-x64\Repositories.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\obj\Release\net8.0\win-x64\Repositories.AssemblyInfoInputs.cache
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\obj\Release\net8.0\win-x64\Repositories.AssemblyInfo.cs
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\obj\Release\net8.0\win-x64\Repositories.csproj.CoreCompileInputs.cache
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\obj\Release\net8.0\win-x64\Repositories.sourcelink.json
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\obj\Release\net8.0\win-x64\Repositories.dll
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\obj\Release\net8.0\win-x64\refint\Repositories.dll
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\obj\Release\net8.0\win-x64\Repositories.pdb
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\obj\Release\net8.0\win-x64\Repositories.genruntimeconfig.cache
+C:\Users\Hp\source\repos\SHOCA.API\Repositories\obj\Release\net8.0\win-x64\ref\Repositories.dll

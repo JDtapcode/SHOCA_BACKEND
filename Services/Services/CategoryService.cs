@@ -39,7 +39,7 @@ namespace Services.Services
         {
             if (model == null || string.IsNullOrEmpty(model.Name))
             {
-                return new ResponseModel { Status = false, Message = "Invalid input data" };
+                return new ResponseModel { Status = false, Message = "Category name can't be null" };
             }
 
             var category = _mapper.Map<Category>(model);

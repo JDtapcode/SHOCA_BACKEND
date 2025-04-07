@@ -29,7 +29,7 @@ namespace Services.Services
         {
             if (model == null || string.IsNullOrEmpty(model.ProjectTitle))
             {
-                return new ResponseModel { Status = false, Message = "Invalid input data" };
+                return new ResponseModel { Status = false, Message = "Tittle,Categories and Budget can't be null" };
             }
 
             var job = _mapper.Map<Job>(model);

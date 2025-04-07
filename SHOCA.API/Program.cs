@@ -129,7 +129,7 @@ app.UseMiddleware<PerformanceMiddleware>(); // Performance tracking middleware
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

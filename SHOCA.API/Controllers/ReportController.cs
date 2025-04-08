@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using Services.Models.ReportModels;
+using Services.Models.ResponseModels;
 
 namespace SHOCA.API.Controllers
 {
@@ -15,9 +16,18 @@ namespace SHOCA.API.Controllers
             _reportService = reportService;
         }
         [HttpPost]
-        public async Task<IActionResult> CreateReport([FromForm] ReportCreateModel model)
+        public async Task<IActionResult> CreateReport([FromBody] ReportCreateModel model)
         {
+            if (model == null)
+            {
+                return BadRequest(new ResponseModel
+                {
+                    Status = false,
+                    Message = "ReporterId and ArtworkId can't be null"
+                });
+            }
             var result = await _reportService.CreateReportAsync(model);
+            
             if (!result.Status)
                 return BadRequest(result.Message);
 

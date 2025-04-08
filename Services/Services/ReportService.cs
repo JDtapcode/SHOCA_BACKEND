@@ -28,21 +28,35 @@ namespace Services.Services
 
         public async Task<ResponseModel> CreateReportAsync(ReportCreateModel model)
         {
-            if (model == null || string.IsNullOrEmpty(model.Description))
+            if (string.IsNullOrEmpty(model.Description))
             {
                 return new ResponseModel { Status = false, Message = "Description can't be null" };
             }
+            
+            
+            //if (string.IsNullOrEmpty(model.Description))
+            //{
+            //    return new ResponseModel { Status = false, Message = "Description can't be null" };
+            //}
+            //if ( model.ReporterId == Guid.Empty)
+            //{
+            //    return new ResponseModel { Status = false, Message = "User hasn't logged in" };
+            //}
+
 
             var reporter = await _unitOfWork.AccountRepository.GetAsync(model.ReporterId);
             if (reporter == null)
             {
                 return new ResponseModel { Status = false, Message = "Reporter not found" };
             }
-
+            if (model.ArtworkId == Guid.Empty)
+            {
+                return new ResponseModel { Status = false, Message = "Artwork not found" };
+            }
             var artwork = await _unitOfWork.ArtworkRepository.GetAsync(model.ArtworkId);
             if (artwork == null)
             {
-                return new ResponseModel { Status = false, Message = "Artwork not found" };
+                return new ResponseModel { Status = false, Message = "Artwork not found in database" };
             }
 
             var report = _mapper.Map<Report>(model);
